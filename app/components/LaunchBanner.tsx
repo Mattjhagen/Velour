@@ -17,7 +17,7 @@ export default function LaunchBanner() {
         <span className="text-stone-300">
           We&apos;re live on{' '}
           <a
-            href="https://www.producthunt.com"
+            href="https://www.producthunt.com/products/velour?launch=velour"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white font-semibold underline underline-offset-2 hover:text-velour-300 transition-colors inline-flex items-center gap-1"
