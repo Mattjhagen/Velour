@@ -59,7 +59,22 @@ export default function ActivityDetailPage() {
       if (result.alreadyJoined) {
         toast("You're already signed up!", { description: "We'll send you the address 24h before." })
       } else {
-        toast("You're in! 🎉", { description: "We'll email you the address 24 hours before the gathering." })
+        toast("You're in! 🎉", { description: "Check your email for confirmation." })
+        // Send confirmation emails
+        fetch('/api/email/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            attendeeName: rsvpName.trim(),
+            attendeeEmail: rsvpEmail.trim(),
+            hostName: activity.host,
+            hostEmail: activity.hostEmail ?? null,
+            gatheringTitle: activity.title,
+            gatheringDate: activity.date,
+            gatheringTime: activity.time,
+            gatheringLocation: activity.location,
+          }),
+        }).catch(console.error)
       }
       setJoined(true)
       setShowRSVPForm(false)

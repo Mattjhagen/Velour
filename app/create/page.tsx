@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 import Nav from '../components/Nav'
 import { CATEGORY_META, Category } from '../data/activities'
+import { supabase } from '../../lib/supabase'
 import clsx from 'clsx'
 
 type Step = 'what' | 'details' | 'rules' | 'preview' | 'done'
@@ -43,7 +44,9 @@ export default function CreatePage() {
   const [tags, setTags] = useState<string[]>([])
   const [tagInput, setTagInput] = useState('')
   const [hostName, setHostName] = useState('')
+  const [hostEmail, setHostEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const steps: Step[] = ['what', 'details', 'rules', 'preview']
   const currentIndex = steps.indexOf(step)
@@ -56,15 +59,36 @@ export default function CreatePage() {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setSubmitting(true)
+    try {
+      await supabase.from('gatherings').insert({
+        title,
+        description,
+        category,
+        location,
+        venue_name: venueName,
+        date,
+        time,
+        recurring: recurring || null,
+        max_spots: maxSpots,
+        tags,
+        host_name: hostName,
+        host_email: hostEmail,
+        status: 'pending',
+      })
+    } catch (err) {
+      console.error('Failed to save gathering', err)
+    }
     setSubmitted(true)
+    setSubmitting(false)
     setStep('done')
   }
 
   const canAdvance = () => {
     if (step === 'what') return category && title.length >= 10 && description.length >= 30
     if (step === 'details') return location && date && time
-    if (step === 'rules') return hostName.length >= 2
+    if (step === 'rules') return hostName.length >= 2 && hostEmail.includes('@')
     if (step === 'preview') return true
     return false
   }
@@ -115,6 +139,7 @@ export default function CreatePage() {
                 setMaxSpots(8)
                 setTags([])
                 setHostName('')
+                setHostEmail('')
                 setSubmitted(false)
               }}
               className="btn-secondary w-full"
@@ -407,15 +432,28 @@ export default function CreatePage() {
               ))}
             </div>
 
-            <div className="bg-cream-50 rounded-2xl p-5 border border-cream-200">
-              <label className="section-label block mb-3">Your first name (shown to attendees)</label>
-              <input
-                type="text"
-                placeholder="What should attendees call you?"
-                value={hostName}
-                onChange={e => setHostName(e.target.value)}
-                className="input-field"
-              />
+            <div className="bg-cream-50 rounded-2xl p-5 border border-cream-200 space-y-4">
+              <div>
+                <label className="section-label block mb-2">Your first name (shown to attendees)</label>
+                <input
+                  type="text"
+                  placeholder="What should attendees call you?"
+                  value={hostName}
+                  onChange={e => setHostName(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div>
+                <label className="section-label block mb-2">Your email (private — never shown publicly)</label>
+                <input
+                  type="email"
+                  placeholder="you@example.com"
+                  value={hostEmail}
+                  onChange={e => setHostEmail(e.target.value)}
+                  className="input-field"
+                />
+                <p className="text-xs text-stone-400 mt-1.5">Used to notify you of RSVPs and to send you a magic link to edit or cancel this gathering.</p>
+              </div>
             </div>
           </div>
         )}
@@ -512,7 +550,7 @@ export default function CreatePage() {
             )}
           >
             {step === 'preview' ? (
-              <>Publish gathering <Sparkles size={16} /></>
+              <>{submitting ? 'Publishing…' : 'Publish gathering'} <Sparkles size={16} /></>
             ) : (
               <>Continue <ArrowRight size={15} /></>
             )}
