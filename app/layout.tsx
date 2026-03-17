@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import { ToastProvider } from './components/Toast'
 import LaunchBanner from './components/LaunchBanner'
+import PushNotifications from './components/PushNotifications'
 
 const BASE_URL = 'https://velour.com'
 
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ToastProvider>
           <LaunchBanner />
           {children}
+          <PushNotifications />
         </ToastProvider>
       </body>
     </html>

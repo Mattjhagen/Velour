@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# admin.velour.live routes to /admin
+[[redirects]]
+  from = "https://admin.velour.live/*"
+  to = "https://velour.com/admin/:splat"
+  status = 301
+  force = true
