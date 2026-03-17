@@ -3,40 +3,40 @@ import './globals.css'
 import { ToastProvider } from './components/Toast'
 import LaunchBanner from './components/LaunchBanner'
 
-const BASE_URL = 'https://gather.app'
+const BASE_URL = 'https://velour.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    default: 'Gather — Real connections. Real places. Real people.',
-    template: '%s | Gather',
+    default: 'Velour — Real connections. Real places. Real people.',
+    template: '%s | Velour',
   },
   description:
-    'In a world of endless scrolling and digital noise, Gather helps you find people to do things with — hiking, cooking, board games, yoga — in person, in your neighborhood, for real. No algorithm. No feed. No doom.',
+    'In a world of endless scrolling and digital noise, Velour helps you find people to do things with — hiking, cooking, board games, yoga — in person, in your neighborhood, for real. No algorithm. No feed. No doom.',
   keywords: [
     'local meetups', 'community app', 'make friends', 'social connection',
     'loneliness', 'activities near me', 'friendship app', 'anti-loneliness',
     'group activities', 'local events', 'real connections',
   ],
-  authors: [{ name: 'Gather' }],
-  creator: 'Gather',
-  publisher: 'Gather PBC',
+  authors: [{ name: 'Velour' }],
+  creator: 'Velour',
+  publisher: 'Velour PBC',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: BASE_URL,
-    siteName: 'Gather',
-    title: 'Gather — Stop scrolling. Start gathering.',
+    siteName: 'Velour',
+    title: 'Velour — Stop scrolling. Start gathering.',
     description:
       'Find real people doing real things near you. Hiking, cooking, board games, yoga. No algorithm. No feed. No doom.',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Gather — Real connections start here' }],
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Velour — Real connections start here' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Gather — Stop scrolling. Start gathering.',
+    title: 'Velour — Stop scrolling. Start gathering.',
     description: 'Find real people doing real things near you. No algorithm. No feed. No doom.',
     images: ['/opengraph-image'],
-    creator: '@gatherapp',
+    creator: '@velourapp',
   },
   robots: {
     index: true,
@@ -76,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebApplication',
-              name: 'Gather',
+              name: 'Velour',
               description: 'Find real people doing real things near you.',
               url: BASE_URL,
               applicationCategory: 'SocialNetworkingApplication',

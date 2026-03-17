@@ -57,10 +57,10 @@ export default function DiscoverPage() {
           <div className="flex items-start justify-between gap-4 flex-wrap mb-6">
             <div>
               <h1 className="font-display text-3xl md:text-4xl text-stone-900 font-bold">
-                Gatherings in Portland
+                gatherings in Portland
               </h1>
               <p className="text-stone-500 mt-1 flex items-center gap-1.5">
-                <MapPin size={14} className="text-gather-500" />
+                <MapPin size={14} className="text-velour-500" />
                 {ACTIVITIES.length} happening this month &middot; curated, not algorithmic
               </p>
             </div>
@@ -69,12 +69,12 @@ export default function DiscoverPage() {
               className={clsx(
                 'flex items-center gap-2 px-4 py-2.5 rounded-2xl border text-sm font-medium transition-all',
                 showFilters
-                  ? 'bg-gather-500 text-white border-gather-500'
-                  : 'bg-white border-cream-300 text-stone-600 hover:border-gather-300'
+                  ? 'bg-velour-500 text-white border-velour-500'
+                  : 'bg-white border-cream-300 text-stone-600 hover:border-velour-300'
               )}
             >
               <SlidersHorizontal size={15} />
-              Filters {hasFilters && <span className="w-2 h-2 bg-gather-300 rounded-full" />}
+              Filters {hasFilters && <span className="w-2 h-2 bg-velour-300 rounded-full" />}
             </button>
           </div>
 

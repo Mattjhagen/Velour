@@ -7,15 +7,15 @@ export default function TermsPage() {
   const sections = [
     {
       title: 'Who we are',
-      content: `Gather PBC is a Public Benefit Corporation incorporated in Oregon. Our primary purpose is to reduce loneliness and strengthen community connections. We are not a traditional social media company. We don't run ads and we don't make money from your attention or your data.`,
+      content: `Velour PBC is a Public Benefit Corporation incorporated in Oregon. Our primary purpose is to reduce loneliness and strengthen community connections. We are not a traditional social media company. We don't run ads and we don't make money from your attention or your data.`,
     },
     {
-      title: 'Using Gather',
-      content: `Gather is free to use. You don't need an account to browse gatherings. To join or host a gathering, you provide a first name and email address. You must be 13 or older to use Gather. By using Gather, you agree to treat other members with respect, honesty, and care.`,
+      title: 'Using Velour',
+      content: `Velour is free to use. You don't need an account to browse gatherings. To join or host a gathering, you provide a first name and email address. You must be 13 or older to use Velour. By using Velour, you agree to treat other members with respect, honesty, and care.`,
     },
     {
       title: 'Community standards',
-      content: `Gatherings must be legal, safe, and inclusive. Discrimination based on race, gender, sexual orientation, disability, religion, national origin, or any other protected characteristic is not permitted and will result in immediate removal.\n\nGatherings may not be used for commercial solicitation, multi-level marketing, religious conversion, or political campaigning. Gather is for connection, not promotion.\n\nHosts must show up. If you host a gathering and cancel with less than 4 hours notice without good cause, you may lose hosting privileges.`,
+      content: `gatherings must be legal, safe, and inclusive. Discrimination based on race, gender, sexual orientation, disability, religion, national origin, or any other protected characteristic is not permitted and will result in immediate removal.\n\ngatherings may not be used for commercial solicitation, multi-level marketing, religious conversion, or political campaigning. Velour is for connection, not promotion.\n\nHosts must show up. If you host a gathering and cancel with less than 4 hours notice without good cause, you may lose hosting privileges.`,
     },
     {
       title: 'Host responsibilities',
@@ -23,23 +23,23 @@ export default function TermsPage() {
     },
     {
       title: 'Safety',
-      content: `Gather facilitates connections between people but cannot guarantee the safety of every interaction. We verify host identities for private-home gatherings and we read every report we receive. If you ever feel unsafe, leave the gathering and contact us at safety@gather.app or call local emergency services if needed.\n\nDo not share personal information (home address, phone number, workplace) beyond what's needed to attend or host a gathering.`,
+      content: `Velour facilitates connections between people but cannot guarantee the safety of every interaction. We verify host identities for private-home gatherings and we read every report we receive. If you ever feel unsafe, leave the gathering and contact us at safety@velour.com or call local emergency services if needed.\n\nDo not share personal information (home address, phone number, workplace) beyond what's needed to attend or host a gathering.`,
     },
     {
       title: 'Content',
-      content: `Gathering descriptions, titles, and tags must be accurate and in good faith. Misleading descriptions, spam, or fake gatherings are not permitted. We reserve the right to remove any gathering that violates these terms.`,
+      content: `gathering descriptions, titles, and tags must be accurate and in good faith. Misleading descriptions, spam, or fake gatherings are not permitted. We reserve the right to remove any gathering that violates these terms.`,
     },
     {
       title: 'Intellectual property',
-      content: `Gather and its logo are trademarks of Gather PBC. The content you submit (gathering descriptions, etc.) remains yours. By submitting content, you grant us a license to display it on the platform. We don't claim ownership of your content.`,
+      content: `Velour and its logo are trademarks of Velour PBC. The content you submit (gathering descriptions, etc.) remains yours. By submitting content, you grant us a license to display it on the platform. We don't claim ownership of your content.`,
     },
     {
       title: 'Limitation of liability',
-      content: `Gather is provided "as is." We do our best to keep it running and safe, but we cannot guarantee uninterrupted service or the behavior of other users. To the maximum extent permitted by law, Gather PBC's liability is limited to the amount you've paid us (which, for most users, is zero).`,
+      content: `Velour is provided "as is." We do our best to keep it running and safe, but we cannot guarantee uninterrupted service or the behavior of other users. To the maximum extent permitted by law, Velour PBC's liability is limited to the amount you've paid us (which, for most users, is zero).`,
     },
     {
       title: 'Termination',
-      content: `We may suspend or terminate accounts that violate these terms. You may stop using Gather at any time. If you want your data deleted, email privacy@gather.app.`,
+      content: `We may suspend or terminate accounts that violate these terms. You may stop using Velour at any time. If you want your data deleted, email privacy@velour.com.`,
     },
     {
       title: 'Governing law',
@@ -47,11 +47,11 @@ export default function TermsPage() {
     },
     {
       title: 'Changes',
-      content: `We'll notify users of material changes to these terms at least 30 days before they take effect. Continued use of Gather after that constitutes acceptance of the new terms.`,
+      content: `We'll notify users of material changes to these terms at least 30 days before they take effect. Continued use of Velour after that constitutes acceptance of the new terms.`,
     },
     {
       title: 'Contact',
-      content: `Legal questions: legal@gather.app\nSafety concerns: safety@gather.app\nGather PBC, Portland, OR`,
+      content: `Legal questions: legal@velour.com\nSafety concerns: safety@velour.com\nVelour PBC, Portland, OR`,
     },
   ]
 
@@ -67,7 +67,7 @@ export default function TermsPage() {
 
         <div className="bg-sage-50 border border-sage-100 rounded-2xl p-5 mb-10">
           <p className="text-sage-800 font-medium leading-relaxed">
-            <strong>TL;DR:</strong> Be kind, show up when you say you will, don&apos;t use Gather to sell things or discriminate against people. That&apos;s basically it.
+            <strong>TL;DR:</strong> Be kind, show up when you say you will, don&apos;t use Velour to sell things or discriminate against people. That&apos;s basically it.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export default function TermsPage() {
 
         <div className="mt-12 pt-8 border-t border-cream-200">
           <Link href="/" className="text-sm text-stone-400 hover:text-stone-700 transition-colors">
-            &larr; Back to Gather
+            &larr; Back to Velour
           </Link>
         </div>
       </div>

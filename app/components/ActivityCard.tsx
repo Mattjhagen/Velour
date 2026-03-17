@@ -21,7 +21,7 @@ function AvatarStack({ attendees, spotsLeft, spotsTotal }: {
           {attendees.slice(0, 4).map((a, i) => (
             <div
               key={i}
-              className="w-7 h-7 rounded-full bg-gradient-to-br from-gather-300 to-gather-500 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white shadow-sm"
+              className="w-7 h-7 rounded-full bg-gradient-to-br from-velour-300 to-velour-500 border-2 border-white flex items-center justify-center text-[10px] font-bold text-white shadow-sm"
             >
               {a}
             </div>
@@ -39,11 +39,11 @@ function AvatarStack({ attendees, spotsLeft, spotsTotal }: {
       <div className="flex items-center gap-1.5">
         <div className="w-16 h-1.5 bg-cream-200 rounded-full overflow-hidden">
           <div
-            className={clsx('h-full rounded-full transition-all', isAlmostFull ? 'bg-gather-500' : 'bg-sage-400')}
+            className={clsx('h-full rounded-full transition-all', isAlmostFull ? 'bg-velour-500' : 'bg-sage-400')}
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className={clsx('text-xs font-semibold', isAlmostFull ? 'text-gather-600' : 'text-stone-500')}>
+        <span className={clsx('text-xs font-semibold', isAlmostFull ? 'text-velour-600' : 'text-stone-500')}>
           {spotsLeft} left
         </span>
       </div>
@@ -58,7 +58,7 @@ export default function ActivityCard({ activity, featured = false }: { activity:
     <Link href={`/activity/${activity.id}`} className="block group">
       <div className={clsx(
         'card p-5 flex flex-col gap-4 group-hover:-translate-y-0.5 transition-all duration-300',
-        featured && 'ring-2 ring-gather-400 ring-offset-2'
+        featured && 'ring-2 ring-velour-400 ring-offset-2'
       )}>
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
@@ -70,7 +70,7 @@ export default function ActivityCard({ activity, featured = false }: { activity:
                   {cat.emoji} {cat.label}
                 </span>
                 {activity.isNew && (
-                  <span className="tag text-[10px] bg-gather-100 text-gather-700">
+                  <span className="tag text-[10px] bg-velour-100 text-velour-700">
                     <Sparkles size={9} /> New
                   </span>
                 )}
@@ -80,7 +80,7 @@ export default function ActivityCard({ activity, featured = false }: { activity:
                   </span>
                 )}
               </div>
-              <h3 className="font-display font-semibold text-stone-900 leading-snug line-clamp-2 group-hover:text-gather-700 transition-colors">
+              <h3 className="font-display font-semibold text-stone-900 leading-snug line-clamp-2 group-hover:text-velour-700 transition-colors">
                 {activity.title}
               </h3>
             </div>
@@ -95,11 +95,11 @@ export default function ActivityCard({ activity, featured = false }: { activity:
         {/* Meta */}
         <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-stone-500">
           <span className="flex items-center gap-1">
-            <Clock size={12} className="text-gather-400" />
+            <Clock size={12} className="text-velour-400" />
             {activity.dateLabel} · {activity.time}
           </span>
           <span className="flex items-center gap-1">
-            <MapPin size={12} className="text-gather-400" />
+            <MapPin size={12} className="text-velour-400" />
             {activity.location.venueName ?? activity.location.neighborhood}
           </span>
           {activity.recurring && (
@@ -118,7 +118,7 @@ export default function ActivityCard({ activity, featured = false }: { activity:
           <span className="text-xs text-stone-500">
             Hosted by <span className="font-medium text-stone-700">{activity.host.name}</span>
             {activity.host.verified && (
-              <span className="ml-1 text-gather-500" title="Verified host">✓</span>
+              <span className="ml-1 text-velour-500" title="Verified host">✓</span>
             )}
           </span>
         </div>

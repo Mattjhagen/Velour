@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { ACTIVITIES } from './data/activities'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://gather.app'
+  const baseUrl = 'https://velour.com'
 
   const activityRoutes = ACTIVITIES.map(activity => ({
     url: `${baseUrl}/activity/${activity.id}`,

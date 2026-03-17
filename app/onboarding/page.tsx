@@ -69,7 +69,7 @@ export default function OnboardingPage() {
       <div className="min-h-screen bg-cream-50">
         <Nav minimal />
         <div className="max-w-lg mx-auto px-4 py-16 text-center">
-          <div className="w-20 h-20 bg-gather-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+          <div className="w-20 h-20 bg-velour-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
             <CheckCircle2 size={36} className="text-white" />
           </div>
           <h1 className="font-display text-4xl text-stone-900 font-bold mb-4">
@@ -85,7 +85,7 @@ export default function OnboardingPage() {
           <div className="bg-white rounded-3xl border border-cream-200 p-6 mb-8 text-left space-y-3">
             <div className="section-label mb-3">Your profile</div>
             <div className="flex items-center gap-2 text-sm">
-              <MapPin size={14} className="text-gather-500" />
+              <MapPin size={14} className="text-velour-500" />
               <span className="text-stone-700">{city}</span>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -127,12 +127,12 @@ export default function OnboardingPage() {
         {step !== 'welcome' && (
           <div className="mb-8">
             <div className="flex items-center justify-between text-xs text-stone-400 mb-2">
-              <span>Setting up your Gather</span>
+              <span>Setting up your Velour</span>
               <span>{Math.round(progress * 100)}%</span>
             </div>
             <div className="h-1.5 bg-cream-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gather-500 rounded-full transition-all duration-500"
+                className="h-full bg-velour-500 rounded-full transition-all duration-500"
                 style={{ width: `${progress * 100}%` }}
               />
             </div>
@@ -170,7 +170,7 @@ export default function OnboardingPage() {
             </div>
 
             <div className="relative">
-              <MapPin size={17} className="absolute left-4 top-1/2 -translate-y-1/2 text-gather-400" />
+              <MapPin size={17} className="absolute left-4 top-1/2 -translate-y-1/2 text-velour-400" />
               <input
                 type="text"
                 placeholder="City or neighborhood..."
@@ -232,7 +232,7 @@ export default function OnboardingPage() {
                     <span className="text-2xl">{interest.emoji}</span>
                     <span className="text-sm font-medium leading-tight">{interest.label}</span>
                     {isSelected && (
-                      <CheckCircle2 size={14} className="ml-auto shrink-0 text-gather-300" />
+                      <CheckCircle2 size={14} className="ml-auto shrink-0 text-velour-300" />
                     )}
                   </button>
                 )
@@ -277,7 +277,7 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   {sizePref === option.value && (
-                    <CheckCircle2 size={20} className="ml-auto shrink-0 text-gather-300" />
+                    <CheckCircle2 size={20} className="ml-auto shrink-0 text-velour-300" />
                   )}
                 </button>
               ))}
@@ -317,15 +317,15 @@ export default function OnboardingPage() {
                     </div>
                   </div>
                   {frequency === option.value && (
-                    <CheckCircle2 size={20} className="ml-auto shrink-0 text-gather-300" />
+                    <CheckCircle2 size={20} className="ml-auto shrink-0 text-velour-300" />
                   )}
                 </button>
               ))}
             </div>
 
-            <div className="bg-gather-50 border border-gather-100 rounded-2xl p-4 flex gap-3">
-              <Sparkles size={15} className="text-gather-500 shrink-0 mt-0.5" />
-              <p className="text-sm text-gather-700">
+            <div className="bg-velour-50 border border-velour-100 rounded-2xl p-4 flex gap-3">
+              <Sparkles size={15} className="text-velour-500 shrink-0 mt-0.5" />
+              <p className="text-sm text-velour-700">
                 Studies show that meeting someone just 3 times is enough to start forming a real friendship.
                 Even monthly makes a difference.
               </p>

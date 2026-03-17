@@ -84,16 +84,16 @@ export default function CreatePage() {
           <p className="text-stone-500 mb-10">
             We'll notify you when someone joins. You'll get their first name and a short intro — nothing else.
           </p>
-          <div className="bg-gather-50 border border-gather-200 rounded-3xl p-6 mb-8 text-left space-y-3">
+          <div className="bg-velour-50 border border-velour-200 rounded-3xl p-6 mb-8 text-left space-y-3">
             <div className="font-display font-semibold text-stone-800 text-lg">{title}</div>
             <div className="text-sm text-stone-600 flex items-center gap-2">
-              <Calendar size={14} className="text-gather-500" /> {date} · {time}
+              <Calendar size={14} className="text-velour-500" /> {date} · {time}
             </div>
             <div className="text-sm text-stone-600 flex items-center gap-2">
-              <MapPin size={14} className="text-gather-500" /> {location}
+              <MapPin size={14} className="text-velour-500" /> {location}
             </div>
             <div className="text-sm text-stone-600 flex items-center gap-2">
-              <Users size={14} className="text-gather-500" /> Up to {maxSpots} people
+              <Users size={14} className="text-velour-500" /> Up to {maxSpots} people
             </div>
           </div>
           <div className="flex flex-col gap-3">
@@ -147,11 +147,11 @@ export default function CreatePage() {
             <div key={s.key} className="flex items-center gap-2 flex-1">
               <div className={clsx(
                 'flex items-center gap-1.5 text-xs font-semibold transition-all',
-                i < currentIndex ? 'text-sage-600' : i === currentIndex ? 'text-gather-600' : 'text-stone-300'
+                i < currentIndex ? 'text-sage-600' : i === currentIndex ? 'text-velour-600' : 'text-stone-300'
               )}>
                 <div className={clsx(
                   'w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold transition-all',
-                  i < currentIndex ? 'bg-sage-500 text-white' : i === currentIndex ? 'bg-gather-500 text-white' : 'bg-stone-200 text-stone-400'
+                  i < currentIndex ? 'bg-sage-500 text-white' : i === currentIndex ? 'bg-velour-500 text-white' : 'bg-stone-200 text-stone-400'
                 )}>
                   {i < currentIndex ? <CheckCircle2 size={14} /> : i + 1}
                 </div>
@@ -237,9 +237,9 @@ export default function CreatePage() {
               <p className="text-xs text-stone-400 mt-1 text-right">{description.length}/500</p>
             </div>
 
-            <div className="bg-gather-50 border border-gather-100 rounded-2xl p-4 flex gap-3">
-              <Sparkles size={16} className="text-gather-500 shrink-0 mt-0.5" />
-              <p className="text-sm text-gather-700">
+            <div className="bg-velour-50 border border-velour-100 rounded-2xl p-4 flex gap-3">
+              <Sparkles size={16} className="text-velour-500 shrink-0 mt-0.5" />
+              <p className="text-sm text-velour-700">
                 <strong>Pro tip:</strong> The best gathering descriptions tell people exactly what to expect,
                 who it's for, and what makes it worth showing up. Honesty beats polish every time.
               </p>
@@ -385,7 +385,7 @@ export default function CreatePage() {
                 A few things about being a host
               </h1>
               <p className="text-stone-500">
-                Gather works because hosts take it seriously. We need you to agree to our community norms.
+                Velour works because hosts take it seriously. We need you to agree to our community norms.
               </p>
             </div>
 
@@ -393,9 +393,9 @@ export default function CreatePage() {
               {[
                 { icon: '👋', title: 'Show up', desc: 'If you cancel less than 4h before, you risk losing your ability to host. People are counting on you.' },
                 { icon: '🛡️', title: 'Keep it safe', desc: 'Verify the space is safe and accessible. If something feels wrong, cancel and contact us.' },
-                { icon: '🚫', title: 'No solicitation', desc: 'Gatherings are for connection, not promotion. No selling, recruiting, or pitching.' },
+                { icon: '🚫', title: 'No solicitation', desc: 'gatherings are for connection, not promotion. No selling, recruiting, or pitching.' },
                 { icon: '📵', title: 'Be present', desc: 'Encourage people to actually be there — less phone, more face.' },
-                { icon: '🤝', title: 'Welcome everyone', desc: 'Gatherings are inclusive. Discriminatory behavior will result in immediate removal.' },
+                { icon: '🤝', title: 'Welcome everyone', desc: 'gatherings are inclusive. Discriminatory behavior will result in immediate removal.' },
               ].map(item => (
                 <div key={item.title} className="flex gap-4 p-4 bg-white rounded-2xl border border-cream-200">
                   <span className="text-xl shrink-0">{item.icon}</span>
@@ -458,7 +458,7 @@ export default function CreatePage() {
               </div>
 
               <div className="flex items-center gap-2 text-sm text-stone-600">
-                <Users size={14} className="text-gather-500" />
+                <Users size={14} className="text-velour-500" />
                 Up to {maxSpots} people
               </div>
 

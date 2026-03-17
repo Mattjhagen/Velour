@@ -12,17 +12,17 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
       <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-8 h-8 bg-gather-500 rounded-xl flex items-center justify-center shadow-sm">
-            <span className="text-white text-sm font-bold">G</span>
+          <div className="w-8 h-8 bg-velour-500 rounded-xl flex items-center justify-center shadow-sm">
+            <span className="text-white text-sm font-bold">V</span>
           </div>
-          <span className="font-display font-semibold text-lg text-stone-900 hidden sm:block">Gather</span>
+          <span className="font-display font-semibold text-lg text-stone-900 hidden sm:block">Velour</span>
         </Link>
 
         {!minimal && (
           <>
             {/* Location pill */}
             <button className="hidden sm:flex items-center gap-1.5 text-sm text-stone-600 bg-cream-100 px-3 py-1.5 rounded-full hover:bg-cream-200 transition-colors">
-              <MapPin size={13} className="text-gather-500" />
+              <MapPin size={13} className="text-velour-500" />
               <span className="font-medium">Portland, OR</span>
             </button>
 
@@ -37,7 +37,7 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
             <div className="flex items-center gap-2 ml-auto sm:ml-0">
               <button className="relative p-2 rounded-xl hover:bg-cream-100 transition-colors text-stone-500 hover:text-stone-700">
                 <Bell size={18} />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-gather-500 rounded-full" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-velour-500 rounded-full" />
               </button>
               <Link
                 href="/create"
@@ -65,7 +65,7 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
           <Link href="/how-it-works" className="btn-ghost text-sm justify-start" onClick={() => setMobileOpen(false)}>How it works</Link>
           <Link href="/manifesto" className="btn-ghost text-sm justify-start" onClick={() => setMobileOpen(false)}>Why we exist</Link>
           <div className="mt-2 pt-2 border-t border-cream-100 flex items-center gap-1.5 text-sm text-stone-600">
-            <MapPin size={13} className="text-gather-500" />
+            <MapPin size={13} className="text-velour-500" />
             <span>Portland, OR — change</span>
           </div>
         </div>

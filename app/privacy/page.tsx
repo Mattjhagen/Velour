@@ -21,11 +21,11 @@ export default function PrivacyPage() {
     },
     {
       title: 'How we use your information',
-      content: `Your email is used for one purpose: sending you the gathering address 24 hours before the event, and/or notifying you when Gather launches in your city (waitlist only). That's it. We don't send newsletters unless you ask for them.`,
+      content: `Your email is used for one purpose: sending you the gathering address 24 hours before the event, and/or notifying you when Velour launches in your city (waitlist only). That's it. We don't send newsletters unless you ask for them.`,
     },
     {
       title: 'Data storage',
-      content: `Your data is stored in Supabase (PostgreSQL database hosted in the United States). We use industry-standard encryption in transit (TLS) and at rest. We retain data only as long as necessary. You can request deletion at any time by emailing privacy@gather.app.`,
+      content: `Your data is stored in Supabase (PostgreSQL database hosted in the United States). We use industry-standard encryption in transit (TLS) and at rest. We retain data only as long as necessary. You can request deletion at any time by emailing privacy@velour.com.`,
     },
     {
       title: 'Cookies',
@@ -37,11 +37,11 @@ export default function PrivacyPage() {
     },
     {
       title: 'Your rights',
-      content: `You can request a copy of your data, correction of inaccurate data, or deletion of your data at any time. Email privacy@gather.app. We'll respond within 30 days. If you're in the EU or UK, you have additional rights under GDPR/UK GDPR including the right to data portability and the right to lodge a complaint with your supervisory authority.`,
+      content: `You can request a copy of your data, correction of inaccurate data, or deletion of your data at any time. Email privacy@velour.com. We'll respond within 30 days. If you're in the EU or UK, you have additional rights under GDPR/UK GDPR including the right to data portability and the right to lodge a complaint with your supervisory authority.`,
     },
     {
       title: 'Children',
-      content: `Gather is not directed at children under 13. We do not knowingly collect data from children. If you believe we have inadvertently collected information from a child, please contact privacy@gather.app and we will delete it promptly.`,
+      content: `Velour is not directed at children under 13. We do not knowingly collect data from children. If you believe we have inadvertently collected information from a child, please contact privacy@velour.com and we will delete it promptly.`,
     },
     {
       title: 'Changes to this policy',
@@ -49,7 +49,7 @@ export default function PrivacyPage() {
     },
     {
       title: 'Contact',
-      content: `Privacy questions: privacy@gather.app\nGeneral questions: hello@gather.app\nGather PBC, Portland, OR`,
+      content: `Privacy questions: privacy@velour.com\nGeneral questions: hello@velour.com\nVelour PBC, Portland, OR`,
     },
   ]
 
@@ -63,8 +63,8 @@ export default function PrivacyPage() {
           <p className="text-stone-500 text-sm">Last updated: {LAST_UPDATED}</p>
         </div>
 
-        <div className="bg-gather-50 border border-gather-100 rounded-2xl p-5 mb-10">
-          <p className="text-gather-800 font-medium leading-relaxed">
+        <div className="bg-velour-50 border border-velour-100 rounded-2xl p-5 mb-10">
+          <p className="text-velour-800 font-medium leading-relaxed">
             <strong>TL;DR:</strong> We collect your email when you sign up. We never sell it. We never advertise to you. We use it only to tell you about gatherings near you. You can delete it anytime.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
 
         <div className="mt-12 pt-8 border-t border-cream-200">
           <Link href="/" className="text-sm text-stone-400 hover:text-stone-700 transition-colors">
-            &larr; Back to Gather
+            &larr; Back to Velour
           </Link>
         </div>
       </div>

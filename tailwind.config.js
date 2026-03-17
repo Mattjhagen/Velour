@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        gather: {
+        velour: {
           50:  '#fff8f0',
           100: '#ffefd6',
           200: '#ffd9a8',

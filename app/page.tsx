@@ -56,7 +56,7 @@ function ManifestoSection() {
               className={`font-display transition-all duration-700 ${
                 i < revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
               } ${
-                isKey ? 'text-2xl md:text-3xl text-gather-400 font-semibold'
+                isKey ? 'text-2xl md:text-3xl text-velour-400 font-semibold'
                   : i < 3 ? 'text-xl text-stone-300'
                   : i === 3 ? 'text-2xl text-white font-semibold'
                   : 'text-lg text-stone-400'
@@ -89,7 +89,7 @@ function HowItWorks() {
     <section className="py-24 px-4 bg-white">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16">
-          <p className="section-label mb-3">How Gather works</p>
+          <p className="section-label mb-3">How Velour works</p>
           <h2 className="font-display text-4xl md:text-5xl text-stone-900">Four steps to an actual friendship</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -110,7 +110,7 @@ function HowItWorks() {
 function Principles() {
   const principles = [
     { icon: <Users className="text-sage-500" size={22} />, title: 'Small by design', desc: 'Max 8–12 people per gathering. Big enough to meet someone new. Small enough to actually talk.', bg: 'bg-sage-50', border: 'border-sage-100' },
-    { icon: <Shield className="text-gather-500" size={22} />, title: 'No algorithm, ever', desc: 'No feed, no engagement optimization. You see what\'s near you, that\'s it.', bg: 'bg-gather-50', border: 'border-gather-100' },
+    { icon: <Shield className="text-velour-500" size={22} />, title: 'No algorithm, ever', desc: 'No feed, no engagement optimization. You see what\'s near you, that\'s it.', bg: 'bg-velour-50', border: 'border-velour-100' },
     { icon: <MapPin className="text-blue-500" size={22} />, title: 'Radically local', desc: 'Everything within walking or short driving distance. No global broadcasts. Your actual community.', bg: 'bg-blue-50', border: 'border-blue-100' },
     { icon: <Zap className="text-amber-500" size={22} />, title: 'Activity-first', desc: 'Shared doing creates real bonds. Hiking, cooking, drawing, playing — not just hanging out.', bg: 'bg-amber-50', border: 'border-amber-100' },
   ]
@@ -144,7 +144,7 @@ function Stats() {
           {STATS.map((stat, i) => (
             <div key={i} className="text-center">
               <div className="text-3xl mb-2">{stat.emoji}</div>
-              <div className="font-display text-3xl lg:text-4xl font-bold text-gather-400 mb-1">{stat.value}</div>
+              <div className="font-display text-3xl lg:text-4xl font-bold text-velour-400 mb-1">{stat.value}</div>
               <div className="text-sm text-stone-400">{stat.label}</div>
             </div>
           ))}
@@ -180,7 +180,7 @@ function FeaturedActivities() {
 
 function Testimonials() {
   const quotes = [
-    { quote: 'I moved to Portland knowing no one. Six months of Gather later, I have a hiking crew, a board game night, and two people I\'d call if something went wrong.', author: 'Dani L.', detail: 'Joined 6 months ago · 23 gatherings attended', avatar: 'DL', stars: 5 },
+    { quote: 'I moved to Portland knowing no one. Six months of Velour later, I have a hiking crew, a board game night, and two people I\'d call if something went wrong.', author: 'Dani L.', detail: 'Joined 6 months ago · 23 gatherings attended', avatar: 'DL', stars: 5 },
     { quote: 'I was skeptical — I\'m 58 and tech isn\'t my thing. But my neighbor convinced me to try a Repair Café. I\'ve been back every month.', author: 'Robert K.', detail: 'Joined 14 months ago · 8 gatherings attended', avatar: 'RK', stars: 5 },
     { quote: 'After my divorce I felt invisible. The cooking group changed that. We\'re not just chopping vegetables — we\'re actually talking. Really talking.', author: 'Sarah M.', detail: 'Joined 4 months ago · 11 gatherings attended', avatar: 'SM', stars: 5 },
   ]
@@ -196,14 +196,14 @@ function Testimonials() {
             <div key={i} className="bg-white rounded-3xl p-7 border border-cream-200 shadow-sm flex flex-col gap-4">
               <div className="flex gap-0.5">
                 {[...Array(q.stars)].map((_, s) => (
-                  <Star key={s} size={14} className="fill-gather-400 text-gather-400" />
+                  <Star key={s} size={14} className="fill-velour-400 text-velour-400" />
                 ))}
               </div>
               <p className="font-display text-lg text-stone-800 leading-relaxed italic flex-1">
                 &ldquo;{q.quote}&rdquo;
               </p>
               <div className="flex items-center gap-3 pt-4 border-t border-cream-100">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gather-300 to-gather-600 flex items-center justify-center text-xs font-bold text-white">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-velour-300 to-velour-600 flex items-center justify-center text-xs font-bold text-white">
                   {q.avatar}
                 </div>
                 <div>
@@ -223,15 +223,15 @@ function WaitlistSection() {
   return (
     <section className="py-24 px-4 bg-stone-950">
       <div className="max-w-2xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 bg-stone-800 text-gather-400 text-sm font-semibold px-4 py-2 rounded-full mb-8">
-          <Heart size={14} className="fill-gather-400" />
+        <div className="inline-flex items-center gap-2 bg-stone-800 text-velour-400 text-sm font-semibold px-4 py-2 rounded-full mb-8">
+          <Heart size={14} className="fill-velour-400" />
           Join 4,200+ people on the waitlist
         </div>
         <h2 className="font-display text-4xl md:text-5xl text-white font-bold mb-4">
           Get early access
         </h2>
         <p className="text-stone-400 text-lg mb-10 max-w-md mx-auto">
-          We&apos;re rolling out city by city. Drop your email and we&apos;ll let you know the moment Gather is live near you.
+          We&apos;re rolling out city by city. Drop your email and we&apos;ll let you know the moment Velour is live near you.
         </p>
         <WaitlistForm variant="hero" placeholder="your@email.com" ctaText="Join the waitlist" />
         <p className="text-stone-600 text-xs mt-5">
@@ -246,7 +246,7 @@ function WaitlistSection() {
             { value: '0', label: 'ads, ever' },
           ].map((s, i) => (
             <div key={i} className="text-center">
-              <div className="font-display text-2xl font-bold text-gather-400">{s.value}</div>
+              <div className="font-display text-2xl font-bold text-velour-400">{s.value}</div>
               <div className="text-xs text-stone-500 mt-1">{s.label}</div>
             </div>
           ))}
@@ -282,23 +282,23 @@ function PressBar() {
 
 function CTA() {
   return (
-    <section className="py-28 px-4 bg-gather-500">
+    <section className="py-28 px-4 bg-velour-500">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="font-display text-4xl md:text-6xl text-white font-bold leading-tight mb-6">
           You&apos;re one gathering away from a friend.
         </h2>
-        <p className="text-gather-100 text-xl mb-10 max-w-lg mx-auto leading-relaxed">
+        <p className="text-velour-100 text-xl mb-10 max-w-lg mx-auto leading-relaxed">
           No app to install. No profile to optimize. Just show up.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link href="/onboarding" className="bg-white text-gather-700 font-bold px-8 py-4 rounded-2xl hover:bg-cream-50 transition-colors shadow-lg hover:shadow-xl text-lg active:scale-95">
+          <Link href="/onboarding" className="bg-white text-velour-700 font-bold px-8 py-4 rounded-2xl hover:bg-cream-50 transition-colors shadow-lg hover:shadow-xl text-lg active:scale-95">
             Get started — it&apos;s free
           </Link>
-          <Link href="/discover" className="bg-gather-600 text-white font-semibold px-8 py-4 rounded-2xl hover:bg-gather-700 transition-colors text-lg active:scale-95">
+          <Link href="/discover" className="bg-velour-600 text-white font-semibold px-8 py-4 rounded-2xl hover:bg-velour-700 transition-colors text-lg active:scale-95">
             Browse gatherings first
           </Link>
         </div>
-        <p className="mt-8 text-gather-200 text-sm">No ads. No engagement bait. No selling your data. Ever.</p>
+        <p className="mt-8 text-velour-200 text-sm">No ads. No engagement bait. No selling your data. Ever.</p>
       </div>
     </section>
   )
@@ -310,10 +310,10 @@ function Footer() {
       <div className="max-w-5xl mx-auto grid md:grid-cols-4 gap-10">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2 mb-4">
-            <div className="w-8 h-8 bg-gather-500 rounded-xl flex items-center justify-center">
-              <span className="text-white text-sm font-bold">G</span>
+            <div className="w-8 h-8 bg-velour-500 rounded-xl flex items-center justify-center">
+              <span className="text-white text-sm font-bold">V</span>
             </div>
-            <span className="font-display font-semibold text-white text-lg">Gather</span>
+            <span className="font-display font-semibold text-white text-lg">Velour</span>
           </div>
           <p className="text-sm leading-relaxed max-w-xs">
             Real connections. Real places. Real people. Built to fight the loneliness epidemic one gathering at a time.
@@ -338,7 +338,7 @@ function Footer() {
         </div>
       </div>
       <div className="max-w-5xl mx-auto mt-12 pt-6 border-t border-stone-800 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-600">
-        <span>&copy; 2026 Gather PBC. Made with care in Portland, OR.</span>
+        <span>&copy; 2026 Velour PBC. Made with care in Portland, OR.</span>
         <span>No cookies except functional ones.</span>
       </div>
     </footer>
@@ -353,17 +353,17 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-gradient-to-b from-cream-50 to-white py-24 md:py-32 px-4">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-20 -right-20 w-96 h-96 bg-gather-100 rounded-full opacity-40 blur-3xl" />
+          <div className="absolute -top-20 -right-20 w-96 h-96 bg-velour-100 rounded-full opacity-40 blur-3xl" />
           <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-sage-100 rounded-full opacity-30 blur-3xl" />
         </div>
         <div className="relative max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-gather-100 text-gather-700 text-sm font-semibold px-4 py-2 rounded-full mb-8">
-            <span className="w-2 h-2 bg-gather-500 rounded-full animate-pulse-soft" />
+          <div className="inline-flex items-center gap-2 bg-velour-100 text-velour-700 text-sm font-semibold px-4 py-2 rounded-full mb-8">
+            <span className="w-2 h-2 bg-velour-500 rounded-full animate-pulse-soft" />
             47 gatherings happening in Portland this week
           </div>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-stone-900 font-bold leading-[1.05] mb-6">
             Stop scrolling.
-            <span className="text-gather-500 italic block">Start gathering.</span>
+            <span className="text-velour-500 italic block">Start gathering.</span>
           </h1>
           <p className="text-xl md:text-2xl text-stone-500 max-w-2xl mx-auto mb-10 leading-relaxed">
             Find real people doing real things near you &mdash; hiking, cooking, making art, playing games.
@@ -378,7 +378,7 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="text-sm text-stone-400 flex items-center justify-center gap-2">
-            <MapPin size={14} className="text-gather-400" />
+            <MapPin size={14} className="text-velour-400" />
             Free forever. No account needed to browse.
           </p>
 

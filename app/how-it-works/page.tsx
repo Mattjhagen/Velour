@@ -11,8 +11,8 @@ export default function HowItWorksPage() {
       emoji: '📍',
       title: 'Start with where you are',
       paras: [
-        'Gather is radically local. Everything you see is within reasonable distance of you — walking, cycling, or a short drive. No national events, no "virtual gatherings", no global communities.',
-        'When you first open Gather, you tell us your neighborhood or city. That\'s all. We don\'t track your GPS. We don\'t sell your location. We use it to show you what\'s happening nearby.',
+        'Velour is radically local. Everything you see is within reasonable distance of you — walking, cycling, or a short drive. No national events, no "virtual gatherings", no global communities.',
+        'When you first open Velour, you tell us your neighborhood or city. That\'s all. We don\'t track your GPS. We don\'t sell your location. We use it to show you what\'s happening nearby.',
       ],
     },
     {
@@ -20,7 +20,7 @@ export default function HowItWorksPage() {
       emoji: '🎯',
       title: 'Tell us what you actually like doing',
       paras: [
-        'Gather is organized around activities, not identities. You\'re not a "professional", a "parent", or any other category. You\'re someone who likes hiking, or cooking, or board games.',
+        'Velour is organized around activities, not identities. You\'re not a "professional", a "parent", or any other category. You\'re someone who likes hiking, or cooking, or board games.',
         'We show you gatherings based on what you want to do. When you show up to do something you enjoy, with others who enjoy it too, conversation happens naturally. That\'s the magic.',
       ],
     },
@@ -48,7 +48,7 @@ export default function HowItWorksPage() {
       title: 'Come back',
       paras: [
         'The first time you go to something new, it can feel awkward. That\'s normal. The second time is better. The third time, someone remembers your name.',
-        'The best gatherings on Gather are recurring — the Sunday morning hike, the monthly board game night, the weekly book club. Repetition is how strangers become friends.',
+        'The best gatherings on Velour are recurring — the Sunday morning hike, the monthly board game night, the weekly book club. Repetition is how strangers become friends.',
       ],
     },
   ]
@@ -56,7 +56,7 @@ export default function HowItWorksPage() {
   const faqs = [
     {
       q: 'Is it free?',
-      a: 'Yes. Gather is free for attendees, always. Hosts of large recurring events (20+ people, monthly+) pay a small platform fee to keep the lights on. We never run ads.',
+      a: 'Yes. Velour is free for attendees, always. Hosts of large recurring events (20+ people, monthly+) pay a small platform fee to keep the lights on. We never run ads.',
     },
     {
       q: 'Do I need an account?',
@@ -87,12 +87,12 @@ export default function HowItWorksPage() {
       {/* Hero */}
       <div className="bg-white border-b border-cream-200 py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="section-label mb-3">How Gather works</p>
+          <p className="section-label mb-3">How Velour works</p>
           <h1 className="font-display text-5xl text-stone-900 font-bold mb-4">
             Five steps to an actual friend
           </h1>
           <p className="text-stone-500 text-lg max-w-xl mx-auto">
-            Gather isn't complicated. That's the point.
+            Velour isn't complicated. That's the point.
           </p>
         </div>
       </div>
@@ -137,7 +137,7 @@ export default function HowItWorksPage() {
               'Cancel any gathering, any time, no guilt',
             ].map(promise => (
               <div key={promise} className="flex items-center gap-3 text-stone-300">
-                <CheckCircle2 size={18} className="text-gather-400 shrink-0" />
+                <CheckCircle2 size={18} className="text-velour-400 shrink-0" />
                 <span>{promise}</span>
               </div>
             ))}
@@ -164,12 +164,12 @@ export default function HowItWorksPage() {
       </div>
 
       {/* CTA */}
-      <div className="bg-gather-500 py-20 px-4 text-center">
+      <div className="bg-velour-500 py-20 px-4 text-center">
         <h2 className="font-display text-4xl text-white font-bold mb-4">
           Ready to try it?
         </h2>
-        <p className="text-gather-100 mb-8">No account, no email, no catch.</p>
-        <Link href="/discover" className="bg-white text-gather-700 font-bold px-8 py-4 rounded-2xl hover:bg-cream-50 transition-colors inline-flex items-center gap-2 shadow-lg">
+        <p className="text-velour-100 mb-8">No account, no email, no catch.</p>
+        <Link href="/discover" className="bg-white text-velour-700 font-bold px-8 py-4 rounded-2xl hover:bg-cream-50 transition-colors inline-flex items-center gap-2 shadow-lg">
           Browse gatherings <ArrowRight size={18} />
         </Link>
       </div>

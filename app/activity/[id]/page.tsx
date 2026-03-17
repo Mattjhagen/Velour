@@ -32,7 +32,7 @@ export default function ActivityDetailPage() {
       <div className="min-h-screen bg-cream-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">🔍</div>
-          <h1 className="font-display text-2xl text-stone-700 mb-2">Gathering not found</h1>
+          <h1 className="font-display text-2xl text-stone-700 mb-2">gathering not found</h1>
           <Link href="/discover" className="btn-primary mt-4 inline-flex">Browse gatherings</Link>
         </div>
       </div>
@@ -97,7 +97,7 @@ export default function ActivityDetailPage() {
             <div className="card p-7">
               <div className="flex items-center flex-wrap gap-2 mb-4">
                 <span className={clsx('tag', cat.bg, cat.color)}>{cat.emoji} {cat.label}</span>
-                {activity.isNew && <span className="tag bg-gather-100 text-gather-700">New</span>}
+                {activity.isNew && <span className="tag bg-velour-100 text-velour-700">New</span>}
                 {activity.recurring && (
                   <span className="tag bg-sage-100 text-sage-700 flex items-center gap-1">
                     <Repeat2 size={10} /> Recurring
@@ -111,7 +111,7 @@ export default function ActivityDetailPage() {
 
               <div className="grid sm:grid-cols-2 gap-3">
                 <div className="flex items-start gap-3 bg-cream-50 rounded-2xl p-4">
-                  <Clock size={18} className="text-gather-500 mt-0.5 shrink-0" />
+                  <Clock size={18} className="text-velour-500 mt-0.5 shrink-0" />
                   <div>
                     <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide mb-0.5">When</div>
                     <div className="font-semibold text-stone-800">{activity.dateLabel}</div>
@@ -124,12 +124,12 @@ export default function ActivityDetailPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3 bg-cream-50 rounded-2xl p-4">
-                  <MapPin size={18} className="text-gather-500 mt-0.5 shrink-0" />
+                  <MapPin size={18} className="text-velour-500 mt-0.5 shrink-0" />
                   <div>
                     <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide mb-0.5">Where</div>
                     {activity.location.venueName && <div className="font-semibold text-stone-800">{activity.location.venueName}</div>}
                     <div className="text-sm text-stone-600">{activity.location.neighborhood}, {activity.location.city}</div>
-                    <div className="text-xs text-gather-600 mt-1 flex items-center gap-1">
+                    <div className="text-xs text-velour-600 mt-1 flex items-center gap-1">
                       <ExternalLink size={11} /> Exact address sent on joining
                     </div>
                   </div>
@@ -148,7 +148,7 @@ export default function ActivityDetailPage() {
                   <div className="font-semibold text-stone-900 flex items-center gap-2">
                     {activity.host.name}
                     {activity.host.verified && (
-                      <span className="text-xs bg-gather-100 text-gather-700 px-2 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="text-xs bg-velour-100 text-velour-700 px-2 py-0.5 rounded-full flex items-center gap-1">
                         <CheckCircle2 size={11} /> Verified
                       </span>
                     )}
@@ -159,7 +159,7 @@ export default function ActivityDetailPage() {
               <div className="mt-4 p-4 bg-cream-50 rounded-2xl border border-cream-100">
                 <div className="flex items-start gap-2 text-sm text-stone-600">
                   <Info size={15} className="text-stone-400 mt-0.5 shrink-0" />
-                  Hosts on Gather are real people in your community. We verify identities and read every review.
+                  Hosts on Velour are real people in your community. We verify identities and read every review.
                 </div>
               </div>
             </div>
@@ -199,18 +199,18 @@ export default function ActivityDetailPage() {
                   <span className="text-sm font-semibold text-stone-700 flex items-center gap-1.5">
                     <Users size={14} /> {filled} / {activity.spotsTotal} spots filled
                   </span>
-                  <span className={clsx('text-sm font-bold', isAlmostFull ? 'text-gather-600' : 'text-sage-600')}>
+                  <span className={clsx('text-sm font-bold', isAlmostFull ? 'text-velour-600' : 'text-sage-600')}>
                     {activity.spotsLeft} left
                   </span>
                 </div>
                 <div className="h-2 bg-cream-200 rounded-full overflow-hidden">
                   <div
-                    className={clsx('h-full rounded-full transition-all duration-700', isAlmostFull ? 'bg-gather-500' : 'bg-sage-400')}
+                    className={clsx('h-full rounded-full transition-all duration-700', isAlmostFull ? 'bg-velour-500' : 'bg-sage-400')}
                     style={{ width: `${pct}%` }}
                   />
                 </div>
                 {isAlmostFull && !joined && (
-                  <p className="text-xs text-gather-600 mt-2 flex items-center gap-1 font-medium">
+                  <p className="text-xs text-velour-600 mt-2 flex items-center gap-1 font-medium">
                     <AlertCircle size={12} /> Almost full &mdash; {activity.spotsLeft} spot{activity.spotsLeft !== 1 ? 's' : ''} left
                   </p>
                 )}
@@ -219,7 +219,7 @@ export default function ActivityDetailPage() {
               {/* Attendees */}
               <div className="flex -space-x-2 mb-5">
                 {activity.attendees.slice(0, 6).map((a, i) => (
-                  <div key={i} className="w-9 h-9 rounded-full bg-gradient-to-br from-gather-300 to-gather-500 border-2 border-white flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
+                  <div key={i} className="w-9 h-9 rounded-full bg-gradient-to-br from-velour-300 to-velour-500 border-2 border-white flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
                     {a}
                   </div>
                 ))}
@@ -290,10 +290,10 @@ export default function ActivityDetailPage() {
                     onClick={() => setSaved(!saved)}
                     className={clsx(
                       'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-sm font-medium border transition-all',
-                      saved ? 'bg-gather-50 border-gather-200 text-gather-700' : 'border-cream-300 text-stone-600 hover:border-stone-300'
+                      saved ? 'bg-velour-50 border-velour-200 text-velour-700' : 'border-cream-300 text-stone-600 hover:border-stone-300'
                     )}
                   >
-                    <Heart size={14} className={saved ? 'fill-gather-500 text-gather-500' : ''} />
+                    <Heart size={14} className={saved ? 'fill-velour-500 text-velour-500' : ''} />
                     {saved ? 'Saved' : 'Save'}
                   </button>
                   <button
@@ -315,7 +315,7 @@ export default function ActivityDetailPage() {
                 <div>
                   <div className="text-sm font-semibold text-sage-800 mb-1">Community trust</div>
                   <p className="text-xs text-sage-700 leading-relaxed">
-                    All hosts are identity-verified. Exact addresses shared only with confirmed attendees. 24/7 support at safety@gather.app.
+                    All hosts are identity-verified. Exact addresses shared only with confirmed attendees. 24/7 support at safety@velour.com.
                   </p>
                 </div>
               </div>

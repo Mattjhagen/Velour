@@ -46,7 +46,7 @@ export default function WaitlistForm({
         toast("You're already on the list!", { description: "We'll be in touch soon." })
       } else {
         toast('You\'re on the list!', {
-          description: 'We\'ll let you know when Gather comes to your city.',
+          description: 'We\'ll let you know when Velour comes to your city.',
         })
       }
       setDone(true)
@@ -80,8 +80,8 @@ export default function WaitlistForm({
         className={clsx(
           'flex-1 rounded-2xl px-4 py-3 text-sm font-medium outline-none transition-all',
           variant === 'dark'
-            ? 'bg-stone-800 border border-stone-700 text-white placeholder-stone-500 focus:border-gather-500'
-            : 'bg-white border border-cream-200 text-stone-800 placeholder-stone-400 focus:border-gather-400 focus:ring-2 focus:ring-gather-100',
+            ? 'bg-stone-800 border border-stone-700 text-white placeholder-stone-500 focus:border-velour-500'
+            : 'bg-white border border-cream-200 text-stone-800 placeholder-stone-400 focus:border-velour-400 focus:ring-2 focus:ring-velour-100',
           variant === 'hero' && 'text-base py-4 px-5'
         )}
       />

@@ -30,7 +30,7 @@ export default function ManifestoPage() {
       <Nav />
 
       <article className="max-w-2xl mx-auto px-4 py-20">
-        <div className="section-label text-stone-500 mb-6">Why Gather exists</div>
+        <div className="section-label text-stone-500 mb-6">Why Velour exists</div>
 
         <h1 className="font-display text-5xl md:text-6xl font-bold text-white leading-tight mb-12">
           We are the loneliest we have ever been.
@@ -48,7 +48,7 @@ export default function ManifestoPage() {
             humans in history. More platforms. More followers. More notifications. And we are lonelier.
           </p>
 
-          <blockquote className="border-l-4 border-gather-500 pl-6 my-10 text-gather-200 font-display text-2xl italic">
+          <blockquote className="border-l-4 border-velour-500 pl-6 my-10 text-velour-200 font-display text-2xl italic">
             &ldquo;The most common thing people say when they finally show up is: I cannot believe
             I waited so long to do this.&rdquo;
           </blockquote>
@@ -70,7 +70,7 @@ export default function ManifestoPage() {
           </h2>
 
           <p>
-            Gather is intentionally unsexy. There is no feed to scroll. No followers to grow.
+            Velour is intentionally unsexy. There is no feed to scroll. No followers to grow.
             No algorithm deciding what is interesting. No metric to optimize.
           </p>
 
@@ -90,7 +90,7 @@ export default function ManifestoPage() {
           <ul className="space-y-3 text-stone-300">
             {rules.map((rule) => (
               <li key={rule} className="flex items-start gap-3">
-                <span className="text-gather-500 mt-1 shrink-0">&#8594;</span>
+                <span className="text-velour-500 mt-1 shrink-0">&#8594;</span>
                 {rule}
               </li>
             ))}

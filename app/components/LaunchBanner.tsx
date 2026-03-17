@@ -20,12 +20,12 @@ export default function LaunchBanner() {
             href="https://www.producthunt.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white font-semibold underline underline-offset-2 hover:text-gather-300 transition-colors inline-flex items-center gap-1"
+            className="text-white font-semibold underline underline-offset-2 hover:text-velour-300 transition-colors inline-flex items-center gap-1"
           >
             Product Hunt
             <ExternalLink size={11} />
           </a>
-          {' '}today &mdash; if Gather means something to you, an upvote helps enormously.
+          {' '}today &mdash; if Velour means something to you, an upvote helps enormously.
         </span>
         <button
           onClick={() => setDismissed(true)}

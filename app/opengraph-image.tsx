@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const alt = 'Gather — Real connections. Real places. Real people.'
+export const alt = 'Velour — Real connections. Real places. Real people.'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -102,7 +102,7 @@ export default function OGImage() {
           letterSpacing: 2,
           textTransform: 'uppercase',
         }}>
-          gather.app &mdash; Free to join
+          velour.com &mdash; Free to join
         </div>
       </div>
     ),

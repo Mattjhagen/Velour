@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/_next/'],
     },
-    sitemap: 'https://gather.app/sitemap.xml',
+    sitemap: 'https://velour.com/sitemap.xml',
   }
 }
