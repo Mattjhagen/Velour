@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
 const FROM = 'Velour <hello@velour.live>'
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY)
   try {
     const { attendeeName, attendeeEmail, hostName, hostEmail, gatheringTitle, gatheringDate, gatheringTime, gatheringLocation } = await req.json()
 
