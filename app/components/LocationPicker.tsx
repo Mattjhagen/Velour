@@ -133,21 +133,6 @@ export default function LocationPicker({ onClose, onSelect, currentLocation }: L
             <span className="text-sm text-stone-700 font-medium">{currentLocation}</span>
           </div>
 
-          {/* Search */}
-          <p className="text-xs text-stone-400 uppercase tracking-wide font-medium pt-1">Search city</p>
-          <div className="relative">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
-            <input
-              ref={inputRef}
-              type="text"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              placeholder={apiKey ? 'Type a city…' : 'Add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to enable search'}
-              disabled={!apiKey}
-              className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-cream-200 bg-white text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-velour-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            />
-          </div>
-
           {/* Detect */}
           <button
             onClick={detectLocation}
@@ -157,12 +142,6 @@ export default function LocationPicker({ onClose, onSelect, currentLocation }: L
             <Navigation size={15} className={`text-velour-500 ${detecting ? 'animate-pulse' : ''}`} />
             {detecting ? 'Detecting…' : 'Use my current location'}
           </button>
-
-          {!apiKey && (
-            <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2">
-              Add <code className="font-mono">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> to <code className="font-mono">.env.local</code> to enable city search.
-            </p>
-          )}
         </div>
       </div>
     </>

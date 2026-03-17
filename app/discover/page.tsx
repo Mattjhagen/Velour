@@ -1,15 +1,44 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { MapPin, SlidersHorizontal, Search, X, Calendar } from 'lucide-react'
 import Nav from '../components/Nav'
 import ActivityCard from '../components/ActivityCard'
 import { ActivityCardSkeleton } from '../components/Skeleton'
-import { ACTIVITIES, CATEGORY_META, Category } from '../data/activities'
+import { ACTIVITIES, CATEGORY_META, Category, Activity } from '../data/activities'
+import { supabase } from '../../lib/supabase'
 import clsx from 'clsx'
 
 const WHEN_FILTERS = ['Any time', 'Today', 'This week', 'This weekend', 'Next week']
 const SIZE_FILTERS = ['Any size', 'Small (≤6)', 'Medium (7–12)', 'Large (13+)']
+
+function dbToActivity(g: any): Activity {
+  const cat = (g.category ?? 'community') as Category
+  return {
+    id: g.id,
+    title: g.title,
+    description: g.description,
+    category: cat,
+    emoji: g.is_online ? '💻' : (CATEGORY_META[cat]?.emoji ?? '🤝'),
+    host: { name: g.host_name ?? 'Host', avatar: (g.host_name ?? 'H')[0].toUpperCase(), verified: false },
+    location: {
+      neighborhood: g.location ?? (g.is_online ? 'Online' : 'Omaha'),
+      city: g.is_online ? 'Online' : 'Omaha',
+      venueName: g.venue_name ?? (g.is_online ? g.meeting_url : undefined),
+    },
+    dateLabel: g.date ?? '',
+    time: g.time ?? '',
+    spotsTotal: g.max_spots ?? 10,
+    spotsLeft: g.max_spots ?? 10,
+    attendees: [],
+    recurring: g.recurring ?? undefined,
+    tags: g.tags ?? [],
+    isNew: true,
+    hostEmail: g.host_email,
+    isOnline: g.is_online,
+    meetingUrl: g.meeting_url,
+  }
+}
 
 export default function DiscoverPage() {
   const [search, setSearch] = useState('')
@@ -17,10 +46,25 @@ export default function DiscoverPage() {
   const [whenFilter, setWhenFilter] = useState('Any time')
   const [sizeFilter, setSizeFilter] = useState('Any size')
   const [showFilters, setShowFilters] = useState(false)
-  const [loading] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [dbActivities, setDbActivities] = useState<Activity[]>([])
+
+  useEffect(() => {
+    supabase
+      .from('gatherings')
+      .select('*')
+      .eq('status', 'approved')
+      .order('created_at', { ascending: false })
+      .then(({ data }) => {
+        if (data) setDbActivities(data.map(dbToActivity))
+        setLoading(false)
+      })
+  }, [])
+
+  const allActivities = useMemo(() => [...dbActivities, ...ACTIVITIES], [dbActivities])
 
   const filtered = useMemo(() => {
-    return ACTIVITIES.filter(a => {
+    return allActivities.filter(a => {
       if (selectedCat !== 'all' && a.category !== selectedCat) return false
       if (search) {
         const q = search.toLowerCase()
@@ -36,7 +80,7 @@ export default function DiscoverPage() {
       if (sizeFilter === 'Large (13+)' && a.spotsTotal < 13) return false
       return true
     })
-  }, [search, selectedCat, sizeFilter])
+  }, [search, selectedCat, sizeFilter, allActivities])
 
   const clearFilters = () => {
     setSearch('')
@@ -57,11 +101,11 @@ export default function DiscoverPage() {
           <div className="flex items-start justify-between gap-4 flex-wrap mb-6">
             <div>
               <h1 className="font-display text-3xl md:text-4xl text-stone-900 font-bold">
-                gatherings in Omaha
+                Gatherings in Omaha
               </h1>
               <p className="text-stone-500 mt-1 flex items-center gap-1.5">
                 <MapPin size={14} className="text-velour-500" />
-                {ACTIVITIES.length} happening this month &middot; curated, not algorithmic
+                {loading ? '…' : allActivities.length} happening this month &middot; curated, not algorithmic
               </p>
             </div>
             <button

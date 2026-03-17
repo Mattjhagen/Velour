@@ -1,24 +1,97 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft, MapPin, Clock, Users, Repeat2, CheckCircle2,
-  Share2, Heart, ExternalLink, AlertCircle, Info, Loader2, Shield
+  Share2, Heart, ExternalLink, AlertCircle, Info, Loader2, Shield,
+  Video, CalendarPlus
 } from 'lucide-react'
 import Nav from '../../components/Nav'
 import ActivityCard from '../../components/ActivityCard'
-import { ACTIVITIES, CATEGORY_META } from '../../data/activities'
-import { submitRSVP } from '../../../lib/supabase'
+import { ACTIVITIES, CATEGORY_META, Activity } from '../../data/activities'
+import { supabase, submitRSVP } from '../../../lib/supabase'
 import { useToast } from '../../components/Toast'
 import clsx from 'clsx'
+
+function dbToActivity(g: any): Activity {
+  const cat = (g.category ?? 'community') as Activity['category']
+  return {
+    id: g.id,
+    title: g.title,
+    description: g.description,
+    category: cat,
+    emoji: g.is_online ? '💻' : (CATEGORY_META[cat]?.emoji ?? '🤝'),
+    host: { name: g.host_name ?? 'Host', avatar: (g.host_name ?? 'H')[0].toUpperCase(), verified: false },
+    location: {
+      neighborhood: g.is_online ? 'Online' : (g.location ?? 'Omaha'),
+      city: g.is_online ? 'Online' : 'Omaha',
+      venueName: g.is_online ? undefined : (g.venue_name ?? undefined),
+    },
+    dateLabel: g.date ?? '',
+    time: g.time ?? '',
+    spotsTotal: g.max_spots ?? 10,
+    spotsLeft: g.max_spots ?? 10,
+    attendees: [],
+    recurring: g.recurring ?? undefined,
+    tags: g.tags ?? [],
+    isNew: true,
+    hostEmail: g.host_email,
+    isOnline: g.is_online,
+    meetingUrl: g.meeting_url,
+  }
+}
+
+function buildGoogleCalendarUrl(activity: Activity): string {
+  const base = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+  const title = encodeURIComponent(activity.title)
+  const loc = activity.isOnline
+    ? encodeURIComponent(activity.meetingUrl ?? 'Online')
+    : encodeURIComponent(`${activity.location.venueName ?? ''} ${activity.location.neighborhood}, ${activity.location.city}`.trim())
+  const details = encodeURIComponent(activity.description + (activity.isOnline && activity.meetingUrl ? `\n\nJoin online: ${activity.meetingUrl}` : ''))
+  return `${base}&text=${title}&location=${loc}&details=${details}`
+}
+
+function downloadICS(activity: Activity) {
+  const now = new Date().toISOString().replace(/[-:.]/g, '').slice(0, 15) + 'Z'
+  const location = activity.isOnline
+    ? (activity.meetingUrl ?? 'Online')
+    : `${activity.location.venueName ?? ''} ${activity.location.neighborhood}, ${activity.location.city}`.trim()
+  const description = activity.description + (activity.isOnline && activity.meetingUrl ? `\\nJoin online: ${activity.meetingUrl}` : '')
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//VelourConnect//EN',
+    'BEGIN:VEVENT',
+    `UID:${activity.id}@velourconnect.com`,
+    `DTSTAMP:${now}`,
+    `SUMMARY:${activity.title}`,
+    `DESCRIPTION:${description}`,
+    `LOCATION:${location}`,
+    `DTSTART:${now}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n')
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${activity.title.replace(/[^a-z0-9]/gi, '_')}.ics`
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 export default function ActivityDetailPage() {
   const params = useParams()
   const router = useRouter()
   const { toast } = useToast()
-  const activity = ACTIVITIES.find(a => a.id === params.id)
+
+  const [activity, setActivity] = useState<Activity | null | undefined>(
+    ACTIVITIES.find(a => a.id === params.id)
+  )
+  const [loadingActivity, setLoadingActivity] = useState(!ACTIVITIES.find(a => a.id === params.id))
 
   const [joined, setJoined] = useState(false)
   const [saved, setSaved] = useState(false)
@@ -26,13 +99,35 @@ export default function ActivityDetailPage() {
   const [rsvpName, setRsvpName] = useState('')
   const [rsvpEmail, setRsvpEmail] = useState('')
   const [rsvpLoading, setRsvpLoading] = useState(false)
+  const [showCalendarMenu, setShowCalendarMenu] = useState(false)
+
+  useEffect(() => {
+    if (activity) return
+    supabase
+      .from('gatherings')
+      .select('*')
+      .eq('id', params.id)
+      .single()
+      .then(({ data }) => {
+        setActivity(data ? dbToActivity(data) : null)
+        setLoadingActivity(false)
+      })
+  }, [params.id]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (loadingActivity) {
+    return (
+      <div className="min-h-screen bg-cream-50 flex items-center justify-center">
+        <Loader2 size={28} className="animate-spin text-velour-400" />
+      </div>
+    )
+  }
 
   if (!activity) {
     return (
       <div className="min-h-screen bg-cream-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">🔍</div>
-          <h1 className="font-display text-2xl text-stone-700 mb-2">gathering not found</h1>
+          <h1 className="font-display text-2xl text-stone-700 mb-2">Gathering not found</h1>
           <Link href="/discover" className="btn-primary mt-4 inline-flex">Browse gatherings</Link>
         </div>
       </div>
@@ -59,7 +154,21 @@ export default function ActivityDetailPage() {
       if (result.alreadyJoined) {
         toast("You're already signed up!", { description: "We'll send you the address 24h before." })
       } else {
-        toast("You're in! 🎉", { description: "We'll email you the address 24 hours before the gathering." })
+        toast("You're in! 🎉", { description: "Check your email for confirmation." })
+        fetch('/api/email/rsvp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            attendeeName: rsvpName.trim(),
+            attendeeEmail: rsvpEmail.trim(),
+            hostName: activity.host.name,
+            hostEmail: activity.hostEmail ?? null,
+            gatheringTitle: activity.title,
+            gatheringDate: activity.dateLabel,
+            gatheringTime: activity.time,
+            gatheringLocation: activity.isOnline ? 'Online' : `${activity.location.neighborhood}, ${activity.location.city}`,
+          }),
+        }).catch(console.error)
       }
       setJoined(true)
       setShowRSVPForm(false)
@@ -97,6 +206,11 @@ export default function ActivityDetailPage() {
             <div className="card p-7">
               <div className="flex items-center flex-wrap gap-2 mb-4">
                 <span className={clsx('tag', cat.bg, cat.color)}>{cat.emoji} {cat.label}</span>
+                {activity.isOnline && (
+                  <span className="tag bg-blue-100 text-blue-700 flex items-center gap-1">
+                    <Video size={10} /> Online
+                  </span>
+                )}
                 {activity.isNew && <span className="tag bg-velour-100 text-velour-700">New</span>}
                 {activity.recurring && (
                   <span className="tag bg-sage-100 text-sage-700 flex items-center gap-1">
@@ -123,17 +237,42 @@ export default function ActivityDetailPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-start gap-3 bg-cream-50 rounded-2xl p-4">
-                  <MapPin size={18} className="text-velour-500 mt-0.5 shrink-0" />
-                  <div>
-                    <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide mb-0.5">Where</div>
-                    {activity.location.venueName && <div className="font-semibold text-stone-800">{activity.location.venueName}</div>}
-                    <div className="text-sm text-stone-600">{activity.location.neighborhood}, {activity.location.city}</div>
-                    <div className="text-xs text-velour-600 mt-1 flex items-center gap-1">
-                      <ExternalLink size={11} /> Exact address sent on joining
+
+                {activity.isOnline ? (
+                  <div className="flex items-start gap-3 bg-blue-50 rounded-2xl p-4">
+                    <Video size={18} className="text-blue-500 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide mb-0.5">Where</div>
+                      <div className="font-semibold text-stone-800">Online Event</div>
+                      {joined && activity.meetingUrl ? (
+                        <a
+                          href={activity.meetingUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:underline flex items-center gap-1 mt-1"
+                        >
+                          <ExternalLink size={11} /> Join meeting
+                        </a>
+                      ) : (
+                        <div className="text-xs text-blue-600 mt-1 flex items-center gap-1">
+                          <Info size={11} /> Link shared after joining
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="flex items-start gap-3 bg-cream-50 rounded-2xl p-4">
+                    <MapPin size={18} className="text-velour-500 mt-0.5 shrink-0" />
+                    <div>
+                      <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide mb-0.5">Where</div>
+                      {activity.location.venueName && <div className="font-semibold text-stone-800">{activity.location.venueName}</div>}
+                      <div className="text-sm text-stone-600">{activity.location.neighborhood}, {activity.location.city}</div>
+                      <div className="text-xs text-velour-600 mt-1 flex items-center gap-1">
+                        <ExternalLink size={11} /> Exact address sent on joining
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -169,7 +308,9 @@ export default function ActivityDetailPage() {
               <h2 className="font-display font-semibold text-lg text-stone-800 mb-4">What to expect</h2>
               <ul className="space-y-3">
                 {[
-                  "You'll receive the exact address 24h before the event via email",
+                  activity.isOnline
+                    ? "You'll receive the meeting link 24h before the event via email"
+                    : "You'll receive the exact address 24h before the event via email",
                   "The host will be there 10 minutes early to welcome you",
                   "No need to know anyone — that's kind of the point",
                   "Photos only with everyone's consent. No posting without permission.",
@@ -232,11 +373,46 @@ export default function ActivityDetailPage() {
 
               {/* RSVP flow */}
               {joined ? (
-                <div className="bg-sage-50 border border-sage-200 rounded-2xl p-4 text-center">
-                  <div className="flex items-center justify-center gap-2 text-sage-700 font-semibold mb-1">
-                    <CheckCircle2 size={18} /> You&apos;re in!
+                <div className="space-y-3">
+                  <div className="bg-sage-50 border border-sage-200 rounded-2xl p-4 text-center">
+                    <div className="flex items-center justify-center gap-2 text-sage-700 font-semibold mb-1">
+                      <CheckCircle2 size={18} /> You&apos;re in!
+                    </div>
+                    <p className="text-xs text-sage-600">
+                      {activity.isOnline
+                        ? "We'll email the meeting link 24h before. See you online!"
+                        : "We'll email the exact address 24h before. See you there!"}
+                    </p>
                   </div>
-                  <p className="text-xs text-sage-600">We&apos;ll email the exact address 24h before. See you there!</p>
+
+                  {/* Add to Calendar */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowCalendarMenu(!showCalendarMenu)}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-2xl text-sm font-medium border border-velour-200 text-velour-700 bg-velour-50 hover:bg-velour-100 transition-all"
+                    >
+                      <CalendarPlus size={14} /> Add to Calendar
+                    </button>
+                    {showCalendarMenu && (
+                      <div className="absolute bottom-full mb-2 left-0 right-0 bg-white rounded-2xl shadow-lg border border-cream-200 overflow-hidden z-10">
+                        <a
+                          href={buildGoogleCalendarUrl(activity)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setShowCalendarMenu(false)}
+                          className="flex items-center gap-3 px-4 py-3 text-sm text-stone-700 hover:bg-cream-50 transition-colors"
+                        >
+                          <span className="text-base">📅</span> Google Calendar
+                        </a>
+                        <button
+                          onClick={() => { downloadICS(activity); setShowCalendarMenu(false) }}
+                          className="w-full flex items-center gap-3 px-4 py-3 text-sm text-stone-700 hover:bg-cream-50 transition-colors border-t border-cream-100"
+                        >
+                          <span className="text-base">📆</span> Download .ics (Apple / Outlook)
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ) : showRSVPForm ? (
                 <form onSubmit={handleRSVP} className="space-y-3">
@@ -268,7 +444,9 @@ export default function ActivityDetailPage() {
                     Cancel
                   </button>
                   <p className="text-[11px] text-stone-400 text-center">
-                    We&apos;ll email the address 24h before. That&apos;s it. No spam.
+                    {activity.isOnline
+                      ? "We'll email the meeting link 24h before. No spam."
+                      : "We'll email the address 24h before. That's it. No spam."}
                   </p>
                 </form>
               ) : (
