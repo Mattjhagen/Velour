@@ -51,7 +51,7 @@ export default function TermsPage() {
     },
     {
       title: 'Contact',
-      content: `Legal questions: legal@velour.com\nSafety concerns: safety@velour.com\nVelour PBC, Portland, OR`,
+      content: `Legal questions: legal@velour.com\nSafety concerns: safety@velour.com\nVelour PBC, Omaha, NE`,
     },
   ]
 

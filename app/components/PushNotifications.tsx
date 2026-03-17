@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Bell, X } from 'lucide-react'
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!
@@ -14,28 +14,44 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray
 }
 
+
 export default function PushNotifications() {
   const [showBanner, setShowBanner] = useState(false)
   const [subscribed, setSubscribed] = useState(false)
+  const [supported, setSupported] = useState(true)
+
+  const tryShow = useCallback(() => {
+    if (!supported) return
+    if (Notification.permission === 'granted') { setSubscribed(true); return }
+    if (Notification.permission === 'denied') return
+    setShowBanner(true)
+  }, [supported])
 
   useEffect(() => {
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      setSupported(false)
+      return
+    }
 
     navigator.serviceWorker.register('/sw.js').catch(console.error)
 
-    const permission = Notification.permission
-    if (permission === 'granted') {
-      setSubscribed(true)
-      return
-    }
-    if (permission === 'denied') return
+    if (Notification.permission === 'granted') { setSubscribed(true); return }
+    if (Notification.permission === 'denied') return
 
     const dismissed = localStorage.getItem('push-banner-dismissed')
     if (!dismissed) {
-      const timer = setTimeout(() => setShowBanner(true), 8000)
+      const timer = setTimeout(() => setShowBanner(true), 3000)
       return () => clearTimeout(timer)
     }
-  }, [])
+
+    window.addEventListener('show-push-banner', tryShow)
+    return () => window.removeEventListener('show-push-banner', tryShow)
+  }, [tryShow])
+
+  useEffect(() => {
+    window.addEventListener('show-push-banner', tryShow)
+    return () => window.removeEventListener('show-push-banner', tryShow)
+  }, [tryShow])
 
   async function subscribe() {
     try {

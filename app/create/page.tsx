@@ -313,7 +313,7 @@ export default function CreatePage() {
               <label className="section-label block mb-2">Neighborhood / area</label>
               <input
                 type="text"
-                placeholder="e.g. Hawthorne, Pearl District, SE Portland"
+                placeholder="e.g. Hawthorne, Pearl District, SE Omaha"
                 value={location}
                 onChange={e => setLocation(e.target.value)}
                 className="input-field"

@@ -49,7 +49,7 @@ export default function PrivacyPage() {
     },
     {
       title: 'Contact',
-      content: `Privacy questions: privacy@velour.com\nGeneral questions: hello@velour.com\nVelour PBC, Portland, OR`,
+      content: `Privacy questions: privacy@velour.com\nGeneral questions: hello@velour.com\nVelour PBC, Omaha, NE`,
     },
   ]
 

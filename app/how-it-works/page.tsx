@@ -72,7 +72,7 @@ export default function HowItWorksPage() {
     },
     {
       q: 'What cities are you in?',
-      a: 'We\'re starting in Portland, OR. If you don\'t see your city yet, you can sign up to host the first gathering there — and we\'ll support you in building the community.',
+      a: 'We\'re starting in Omaha, NE. If you don\'t see your city yet, you can sign up to host the first gathering there — and we\'ll support you in building the community.',
     },
     {
       q: 'Why no social features?',
