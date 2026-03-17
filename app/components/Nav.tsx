@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { MapPin, Menu, X, Plus, Bell } from 'lucide-react'
 import LocationPicker from './LocationPicker'
+import { triggerPushBanner } from './PushNotifications'
 
 const DEFAULT_LOCATION = 'Portland, OR'
 
@@ -54,7 +55,11 @@ export default function Nav({ minimal = false }: { minimal?: boolean }) {
 
               {/* Actions */}
               <div className="flex items-center gap-2 ml-auto sm:ml-0">
-                <button className="relative p-2 rounded-xl hover:bg-cream-100 transition-colors text-stone-500 hover:text-stone-700">
+                <button
+                  onClick={triggerPushBanner}
+                  className="relative p-2 rounded-xl hover:bg-cream-100 transition-colors text-stone-500 hover:text-stone-700"
+                  title="Enable notifications"
+                >
                   <Bell size={18} />
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-velour-500 rounded-full" />
                 </button>
