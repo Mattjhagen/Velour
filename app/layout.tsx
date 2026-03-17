@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
 import './globals.css'
 import { ToastProvider } from './components/Toast'
 import LaunchBanner from './components/LaunchBanner'
@@ -88,6 +89,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-Y4LSMW4RDZ" strategy="afterInteractive" />
+      <Script id="google-analytics" strategy="afterInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-Y4LSMW4RDZ');
+      `}</Script>
       <body className="noise min-h-screen bg-cream-50 antialiased">
         <ToastProvider>
           <LaunchBanner />
