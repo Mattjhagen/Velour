@@ -45,6 +45,8 @@ export default function CreatePage() {
   const [tagInput, setTagInput] = useState('')
   const [hostName, setHostName] = useState('')
   const [hostEmail, setHostEmail] = useState('')
+  const [isOnline, setIsOnline] = useState(false)
+  const [meetingUrl, setMeetingUrl] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
@@ -66,8 +68,8 @@ export default function CreatePage() {
         title,
         description,
         category,
-        location,
-        venue_name: venueName,
+        location: isOnline ? 'Online' : location,
+        venue_name: isOnline ? null : (venueName || null),
         date,
         time,
         recurring: recurring || null,
@@ -75,7 +77,9 @@ export default function CreatePage() {
         tags,
         host_name: hostName,
         host_email: hostEmail,
-        status: 'pending',
+        is_online: isOnline,
+        meeting_url: isOnline ? meetingUrl : null,
+        status: 'approved',
       })
     } catch (err) {
       console.error('Failed to save gathering', err)
@@ -87,7 +91,7 @@ export default function CreatePage() {
 
   const canAdvance = () => {
     if (step === 'what') return category && title.length >= 10 && description.length >= 30
-    if (step === 'details') return location && date && time
+    if (step === 'details') return (isOnline || location) && date && time
     if (step === 'rules') return hostName.length >= 2 && hostEmail.includes('@')
     if (step === 'preview') return true
     return false
@@ -323,30 +327,72 @@ export default function CreatePage() {
               </select>
             </div>
 
+            {/* Online / In-person toggle */}
             <div>
-              <label className="section-label block mb-2">Venue name (optional)</label>
-              <input
-                type="text"
-                placeholder="e.g. Café Noir, Cedar Ridge Trailhead, my apartment"
-                value={venueName}
-                onChange={e => setVenueName(e.target.value)}
-                className="input-field"
-              />
+              <label className="section-label block mb-2">Format</label>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setIsOnline(false)}
+                  className={clsx('flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-all',
+                    !isOnline ? 'bg-stone-900 text-white border-stone-900' : 'bg-white border-cream-200 text-stone-600 hover:border-stone-300'
+                  )}
+                >
+                  📍 In-person
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsOnline(true)}
+                  className={clsx('flex-1 py-2.5 rounded-xl border text-sm font-semibold transition-all',
+                    isOnline ? 'bg-stone-900 text-white border-stone-900' : 'bg-white border-cream-200 text-stone-600 hover:border-stone-300'
+                  )}
+                >
+                  💻 Online
+                </button>
+              </div>
             </div>
 
-            <div>
-              <label className="section-label block mb-2">Neighborhood / area</label>
-              <input
-                type="text"
-                placeholder="e.g. Hawthorne, Pearl District, SE Omaha"
-                value={location}
-                onChange={e => setLocation(e.target.value)}
-                className="input-field"
-              />
-              <p className="text-xs text-stone-400 mt-1.5 flex items-center gap-1">
-                <Info size={11} /> Only the neighborhood is shown publicly. Exact address shared privately with attendees.
-              </p>
-            </div>
+            {isOnline ? (
+              <div>
+                <label className="section-label block mb-2">Meeting link</label>
+                <input
+                  type="url"
+                  placeholder="https://zoom.us/j/... or meet.google.com/..."
+                  value={meetingUrl}
+                  onChange={e => setMeetingUrl(e.target.value)}
+                  className="input-field"
+                />
+                <p className="text-xs text-stone-400 mt-1.5 flex items-center gap-1">
+                  <Info size={11} /> Link is only shared with confirmed attendees 24h before.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label className="section-label block mb-2">Venue name (optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Café Noir, Cedar Ridge Trailhead, my apartment"
+                    value={venueName}
+                    onChange={e => setVenueName(e.target.value)}
+                    className="input-field"
+                  />
+                </div>
+                <div>
+                  <label className="section-label block mb-2">Neighborhood / area</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Hawthorne, Pearl District, SE Omaha"
+                    value={location}
+                    onChange={e => setLocation(e.target.value)}
+                    className="input-field"
+                  />
+                  <p className="text-xs text-stone-400 mt-1.5 flex items-center gap-1">
+                    <Info size={11} /> Only the neighborhood is shown publicly. Exact address shared privately with attendees.
+                  </p>
+                </div>
+              </>
+            )}
 
             <div>
               <label className="section-label block mb-3">Max group size</label>

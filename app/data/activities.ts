@@ -26,6 +26,9 @@ export type Activity = {
   tags: string[]
   isNew?: boolean
   isFeatured?: boolean
+  hostEmail?: string
+  isOnline?: boolean
+  meetingUrl?: string
 }
 
 export const CATEGORY_META: Record<Category, { label: string; color: string; bg: string; emoji: string }> = {
