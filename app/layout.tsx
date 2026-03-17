@@ -4,6 +4,7 @@ import './globals.css'
 import { ToastProvider } from './components/Toast'
 import LaunchBanner from './components/LaunchBanner'
 import PushNotifications from './components/PushNotifications'
+import CookieBanner, { CookieSettingsButton } from './components/CookieBanner'
 
 const BASE_URL = 'https://velour.com'
 
@@ -89,18 +90,48 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
+
+      {/* Google Consent Mode v2 — must run BEFORE gtag loads */}
+      <Script id="consent-defaults" strategy="beforeInteractive">{`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          analytics_storage:   'denied',
+          ad_storage:          'denied',
+          ad_user_data:        'denied',
+          ad_personalization:  'denied',
+          wait_for_update:     500
+        });
+        // Restore previously saved consent without waiting for React to hydrate
+        try {
+          var saved = JSON.parse(localStorage.getItem('velour_consent_v1') || 'null');
+          if (saved) {
+            gtag('consent', 'update', {
+              analytics_storage:   saved.analytics ? 'granted' : 'denied',
+              ad_storage:          saved.marketing ? 'granted' : 'denied',
+              ad_user_data:        saved.marketing ? 'granted' : 'denied',
+              ad_personalization:  saved.marketing ? 'granted' : 'denied',
+            });
+          }
+        } catch(e) {}
+      `}</Script>
+
+      {/* Google Analytics — loads after consent defaults are set */}
       <Script src="https://www.googletagmanager.com/gtag/js?id=G-Y4LSMW4RDZ" strategy="afterInteractive" />
       <Script id="google-analytics" strategy="afterInteractive">{`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-Y4LSMW4RDZ');
+        gtag('config', 'G-Y4LSMW4RDZ', { send_page_view: true });
       `}</Script>
+
       <body className="noise min-h-screen bg-cream-50 antialiased">
         <ToastProvider>
           <LaunchBanner />
           {children}
           <PushNotifications />
+          <CookieBanner />
+          <CookieSettingsButton />
         </ToastProvider>
       </body>
     </html>
