@@ -10,7 +10,7 @@ import clsx from 'clsx'
 type OnboardStep = 'welcome' | 'location' | 'interests' | 'size' | 'frequency' | 'done'
 
 const CITY_SUGGESTIONS = [
-  'Portland, OR', 'Seattle, WA', 'Austin, TX', 'Denver, CO',
+  'Omaha, NE', 'Seattle, WA', 'Austin, TX', 'Denver, CO',
   'Chicago, IL', 'Brooklyn, NY', 'Oakland, CA', 'Nashville, TN',
   'Minneapolis, MN', 'Atlanta, GA', 'Boston, MA', 'Phoenix, AZ',
 ]

@@ -162,7 +162,7 @@ function FeaturedActivities() {
         <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
           <div>
             <p className="section-label mb-2">Happening near you</p>
-            <h2 className="font-display text-4xl text-stone-900">This week in Portland</h2>
+            <h2 className="font-display text-4xl text-stone-900">This week in Omaha</h2>
           </div>
           <Link href="/discover" className="btn-secondary text-sm flex items-center gap-1.5">
             See all gatherings <ArrowRight size={14} />
@@ -180,7 +180,7 @@ function FeaturedActivities() {
 
 function Testimonials() {
   const quotes = [
-    { quote: 'I moved to Portland knowing no one. Six months of Velour later, I have a hiking crew, a board game night, and two people I\'d call if something went wrong.', author: 'Dani L.', detail: 'Joined 6 months ago · 23 gatherings attended', avatar: 'DL', stars: 5 },
+    { quote: 'I moved to Omaha knowing no one. Six months of Velour later, I have a hiking crew, a board game night, and two people I\'d call if something went wrong.', author: 'Dani L.', detail: 'Joined 6 months ago · 23 gatherings attended', avatar: 'DL', stars: 5 },
     { quote: 'I was skeptical — I\'m 58 and tech isn\'t my thing. But my neighbor convinced me to try a Repair Café. I\'ve been back every month.', author: 'Robert K.', detail: 'Joined 14 months ago · 8 gatherings attended', avatar: 'RK', stars: 5 },
     { quote: 'After my divorce I felt invisible. The cooking group changed that. We\'re not just chopping vegetables — we\'re actually talking. Really talking.', author: 'Sarah M.', detail: 'Joined 4 months ago · 11 gatherings attended', avatar: 'SM', stars: 5 },
   ]
@@ -338,7 +338,7 @@ function Footer() {
         </div>
       </div>
       <div className="max-w-5xl mx-auto mt-12 pt-6 border-t border-stone-800 flex flex-wrap items-center justify-between gap-4 text-xs text-stone-600">
-        <span>&copy; 2026 Velour PBC. Made with care in Portland, OR.</span>
+        <span>&copy; 2026 Velour PBC. Made with care in Omaha, NE.</span>
         <span>No cookies except functional ones.</span>
       </div>
     </footer>
@@ -359,7 +359,7 @@ export default function HomePage() {
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-velour-100 text-velour-700 text-sm font-semibold px-4 py-2 rounded-full mb-8">
             <span className="w-2 h-2 bg-velour-500 rounded-full animate-pulse-soft" />
-            47 gatherings happening in Portland this week
+            47 gatherings happening in Omaha this week
           </div>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl text-stone-900 font-bold leading-[1.05] mb-6">
             Stop scrolling.

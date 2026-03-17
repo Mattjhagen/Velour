@@ -57,7 +57,7 @@ export default function DiscoverPage() {
           <div className="flex items-start justify-between gap-4 flex-wrap mb-6">
             <div>
               <h1 className="font-display text-3xl md:text-4xl text-stone-900 font-bold">
-                gatherings in Portland
+                gatherings in Omaha
               </h1>
               <p className="text-stone-500 mt-1 flex items-center gap-1.5">
                 <MapPin size={14} className="text-velour-500" />

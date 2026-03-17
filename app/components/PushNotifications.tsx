@@ -14,10 +14,6 @@ function urlBase64ToUint8Array(base64String: string) {
   return outputArray
 }
 
-// Allow Nav bell to trigger the banner
-export function triggerPushBanner() {
-  window.dispatchEvent(new CustomEvent('show-push-banner'))
-}
 
 export default function PushNotifications() {
   const [showBanner, setShowBanner] = useState(false)
