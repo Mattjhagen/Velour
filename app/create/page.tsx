@@ -64,7 +64,7 @@ export default function CreatePage() {
   const handleSubmit = async () => {
     setSubmitting(true)
     try {
-      await supabase.from('gatherings').insert({
+      const { data } = await supabase.from('gatherings').insert({
         title,
         description,
         category,
@@ -80,7 +80,16 @@ export default function CreatePage() {
         is_online: isOnline,
         meeting_url: isOnline ? meetingUrl : null,
         status: 'approved',
-      })
+      }).select('id').single()
+
+      // Ping Bing + Google IndexNow for instant indexing
+      if (data?.id) {
+        fetch('/api/indexnow', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ urls: [`https://velour.com/activity/${data.id}`, 'https://velour.com/discover'] }),
+        }).catch(console.error)
+      }
     } catch (err) {
       console.error('Failed to save gathering', err)
     }
