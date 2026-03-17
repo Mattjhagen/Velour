@@ -5,20 +5,27 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft, MapPin, Clock, Users, Repeat2, CheckCircle2,
-  Share2, Heart, ExternalLink, AlertCircle, Info
+  Share2, Heart, ExternalLink, AlertCircle, Info, Loader2, Shield
 } from 'lucide-react'
 import Nav from '../../components/Nav'
 import ActivityCard from '../../components/ActivityCard'
 import { ACTIVITIES, CATEGORY_META } from '../../data/activities'
+import { submitRSVP } from '../../../lib/supabase'
+import { useToast } from '../../components/Toast'
 import clsx from 'clsx'
 
 export default function ActivityDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const { toast } = useToast()
   const activity = ACTIVITIES.find(a => a.id === params.id)
+
   const [joined, setJoined] = useState(false)
   const [saved, setSaved] = useState(false)
-  const [showConfirm, setShowConfirm] = useState(false)
+  const [showRSVPForm, setShowRSVPForm] = useState(false)
+  const [rsvpName, setRsvpName] = useState('')
+  const [rsvpEmail, setRsvpEmail] = useState('')
+  const [rsvpLoading, setRsvpLoading] = useState(false)
 
   if (!activity) {
     return (
@@ -38,21 +45,44 @@ export default function ActivityDetailPage() {
   const isAlmostFull = activity.spotsLeft <= 2
   const related = ACTIVITIES.filter(a => a.category === activity.category && a.id !== activity.id).slice(0, 3)
 
-  const handleJoin = () => {
-    if (joined) return
-    setShowConfirm(true)
-    setTimeout(() => {
+  const handleRSVP = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!rsvpName.trim() || !rsvpEmail.trim()) return
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(rsvpEmail)) {
+      toast('Please enter a valid email address.', { type: 'error' })
+      return
+    }
+    setRsvpLoading(true)
+    try {
+      const result = await submitRSVP({ activity_id: activity.id, first_name: rsvpName.trim(), email: rsvpEmail.trim() })
+      if (result.alreadyJoined) {
+        toast("You're already signed up!", { description: "We'll send you the address 24h before." })
+      } else {
+        toast("You're in! 🎉", { description: "We'll email you the address 24 hours before the gathering." })
+      }
       setJoined(true)
-      setShowConfirm(false)
-    }, 1200)
+      setShowRSVPForm(false)
+    } catch {
+      toast('Something went wrong. Please try again.', { type: 'error' })
+    } finally {
+      setRsvpLoading(false)
+    }
+  }
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({ title: activity.title, url: window.location.href })
+    } else {
+      await navigator.clipboard.writeText(window.location.href)
+      toast('Link copied to clipboard!')
+    }
   }
 
   return (
     <div className="min-h-screen bg-cream-50">
       <Nav />
-
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Back */}
         <button
           onClick={() => router.back()}
           className="flex items-center gap-2 text-stone-500 hover:text-stone-800 transition-colors mb-6 group"
@@ -64,32 +94,21 @@ export default function ActivityDetailPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-5">
-            {/* Header card */}
             <div className="card p-7">
-              {/* Category + tags */}
               <div className="flex items-center flex-wrap gap-2 mb-4">
-                <span className={clsx('tag', cat.bg, cat.color)}>
-                  {cat.emoji} {cat.label}
-                </span>
-                {activity.isNew && (
-                  <span className="tag bg-gather-100 text-gather-700">New</span>
-                )}
+                <span className={clsx('tag', cat.bg, cat.color)}>{cat.emoji} {cat.label}</span>
+                {activity.isNew && <span className="tag bg-gather-100 text-gather-700">New</span>}
                 {activity.recurring && (
                   <span className="tag bg-sage-100 text-sage-700 flex items-center gap-1">
                     <Repeat2 size={10} /> Recurring
                   </span>
                 )}
               </div>
-
               <h1 className="font-display text-2xl md:text-3xl text-stone-900 font-bold mb-4 leading-snug">
                 {activity.emoji} {activity.title}
               </h1>
+              <p className="text-stone-600 leading-relaxed text-[15px] mb-6">{activity.description}</p>
 
-              <p className="text-stone-600 leading-relaxed text-[15px] mb-6">
-                {activity.description}
-              </p>
-
-              {/* Details grid */}
               <div className="grid sm:grid-cols-2 gap-3">
                 <div className="flex items-start gap-3 bg-cream-50 rounded-2xl p-4">
                   <Clock size={18} className="text-gather-500 mt-0.5 shrink-0" />
@@ -108,12 +127,8 @@ export default function ActivityDetailPage() {
                   <MapPin size={18} className="text-gather-500 mt-0.5 shrink-0" />
                   <div>
                     <div className="text-xs text-stone-400 font-semibold uppercase tracking-wide mb-0.5">Where</div>
-                    {activity.location.venueName && (
-                      <div className="font-semibold text-stone-800">{activity.location.venueName}</div>
-                    )}
-                    <div className="text-sm text-stone-600">
-                      {activity.location.neighborhood}, {activity.location.city}
-                    </div>
+                    {activity.location.venueName && <div className="font-semibold text-stone-800">{activity.location.venueName}</div>}
+                    <div className="text-sm text-stone-600">{activity.location.neighborhood}, {activity.location.city}</div>
                     <div className="text-xs text-gather-600 mt-1 flex items-center gap-1">
                       <ExternalLink size={11} /> Exact address sent on joining
                     </div>
@@ -122,7 +137,7 @@ export default function ActivityDetailPage() {
               </div>
             </div>
 
-            {/* Host card */}
+            {/* Host */}
             <div className="card p-6">
               <h2 className="font-display font-semibold text-lg text-stone-800 mb-4">Your host</h2>
               <div className="flex items-center gap-4">
@@ -138,17 +153,13 @@ export default function ActivityDetailPage() {
                       </span>
                     )}
                   </div>
-                  <div className="text-sm text-stone-500 mt-0.5">
-                    Member since 2024 · 12 gatherings hosted
-                  </div>
+                  <div className="text-sm text-stone-500 mt-0.5">Member since 2024 &middot; 12 gatherings hosted</div>
                 </div>
               </div>
               <div className="mt-4 p-4 bg-cream-50 rounded-2xl border border-cream-100">
                 <div className="flex items-start gap-2 text-sm text-stone-600">
                   <Info size={15} className="text-stone-400 mt-0.5 shrink-0" />
-                  <span>
-                    Hosts on Gather are real people in your community. We verify identities and read every review. Your safety matters.
-                  </span>
+                  Hosts on Gather are real people in your community. We verify identities and read every review.
                 </div>
               </div>
             </div>
@@ -158,11 +169,11 @@ export default function ActivityDetailPage() {
               <h2 className="font-display font-semibold text-lg text-stone-800 mb-4">What to expect</h2>
               <ul className="space-y-3">
                 {[
-                  'You\'ll receive the exact address 24h before the event via email',
-                  'The host will be there 10 minutes early to welcome you',
-                  'No need to know anyone — that\'s kind of the point',
-                  'Photos only with everyone\'s consent. No posting without permission.',
-                  'If you can\'t make it, please cancel at least 2h before so others can join',
+                  "You'll receive the exact address 24h before the event via email",
+                  "The host will be there 10 minutes early to welcome you",
+                  "No need to know anyone — that's kind of the point",
+                  "Photos only with everyone's consent. No posting without permission.",
+                  "If you can't make it, please cancel at least 2h before so others can join",
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm text-stone-600">
                     <CheckCircle2 size={16} className="text-sage-500 mt-0.5 shrink-0" />
@@ -172,19 +183,15 @@ export default function ActivityDetailPage() {
               </ul>
             </div>
 
-            {/* Tags */}
             <div className="flex flex-wrap gap-2">
               {activity.tags.map(tag => (
-                <span key={tag} className="bg-white border border-cream-200 text-stone-600 text-sm px-4 py-1.5 rounded-full">
-                  {tag}
-                </span>
+                <span key={tag} className="bg-white border border-cream-200 text-stone-600 text-sm px-4 py-1.5 rounded-full">{tag}</span>
               ))}
             </div>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-4">
-            {/* Join card */}
             <div className="card p-6 sticky top-24">
               {/* Spots */}
               <div className="mb-5">
@@ -192,10 +199,7 @@ export default function ActivityDetailPage() {
                   <span className="text-sm font-semibold text-stone-700 flex items-center gap-1.5">
                     <Users size={14} /> {filled} / {activity.spotsTotal} spots filled
                   </span>
-                  <span className={clsx(
-                    'text-sm font-bold',
-                    isAlmostFull ? 'text-gather-600' : 'text-sage-600'
-                  )}>
+                  <span className={clsx('text-sm font-bold', isAlmostFull ? 'text-gather-600' : 'text-sage-600')}>
                     {activity.spotsLeft} left
                   </span>
                 </div>
@@ -207,7 +211,7 @@ export default function ActivityDetailPage() {
                 </div>
                 {isAlmostFull && !joined && (
                   <p className="text-xs text-gather-600 mt-2 flex items-center gap-1 font-medium">
-                    <AlertCircle size={12} /> Almost full — {activity.spotsLeft} spot{activity.spotsLeft !== 1 ? 's' : ''} left
+                    <AlertCircle size={12} /> Almost full &mdash; {activity.spotsLeft} spot{activity.spotsLeft !== 1 ? 's' : ''} left
                   </p>
                 )}
               </div>
@@ -215,10 +219,7 @@ export default function ActivityDetailPage() {
               {/* Attendees */}
               <div className="flex -space-x-2 mb-5">
                 {activity.attendees.slice(0, 6).map((a, i) => (
-                  <div
-                    key={i}
-                    className="w-9 h-9 rounded-full bg-gradient-to-br from-gather-300 to-gather-500 border-2 border-white flex items-center justify-center text-[11px] font-bold text-white shadow-sm"
-                  >
+                  <div key={i} className="w-9 h-9 rounded-full bg-gradient-to-br from-gather-300 to-gather-500 border-2 border-white flex items-center justify-center text-[11px] font-bold text-white shadow-sm">
                     {a}
                   </div>
                 ))}
@@ -229,39 +230,62 @@ export default function ActivityDetailPage() {
                 )}
               </div>
 
-              {/* Actions */}
-              <div className="space-y-3">
-                {showConfirm ? (
-                  <div className="flex items-center justify-center gap-2 py-4 text-sage-600 font-semibold animate-pulse-soft">
-                    <CheckCircle2 size={20} />
-                    Saving your spot...
+              {/* RSVP flow */}
+              {joined ? (
+                <div className="bg-sage-50 border border-sage-200 rounded-2xl p-4 text-center">
+                  <div className="flex items-center justify-center gap-2 text-sage-700 font-semibold mb-1">
+                    <CheckCircle2 size={18} /> You&apos;re in!
                   </div>
-                ) : joined ? (
-                  <div className="bg-sage-50 border border-sage-200 rounded-2xl p-4 text-center">
-                    <div className="flex items-center justify-center gap-2 text-sage-700 font-semibold mb-1">
-                      <CheckCircle2 size={18} />
-                      You're in!
-                    </div>
-                    <p className="text-xs text-sage-600">
-                      We'll email the exact address 24h before. See you there!
-                    </p>
-                  </div>
-                ) : (
+                  <p className="text-xs text-sage-600">We&apos;ll email the exact address 24h before. See you there!</p>
+                </div>
+              ) : showRSVPForm ? (
+                <form onSubmit={handleRSVP} className="space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Your first name"
+                    value={rsvpName}
+                    onChange={e => setRsvpName(e.target.value)}
+                    required
+                    className="input-field text-sm"
+                    autoFocus
+                  />
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={rsvpEmail}
+                    onChange={e => setRsvpEmail(e.target.value)}
+                    required
+                    className="input-field text-sm"
+                  />
                   <button
-                    onClick={handleJoin}
-                    disabled={activity.spotsLeft === 0}
-                    className={clsx(
-                      'w-full py-3.5 rounded-2xl font-semibold text-sm transition-all active:scale-95',
-                      activity.spotsLeft === 0
-                        ? 'bg-stone-100 text-stone-400 cursor-not-allowed'
-                        : 'btn-primary'
-                    )}
+                    type="submit"
+                    disabled={rsvpLoading}
+                    className="w-full btn-primary flex items-center justify-center gap-2 py-3"
                   >
-                    {activity.spotsLeft === 0 ? 'Fully booked — join waitlist' : 'Join this gathering'}
+                    {rsvpLoading ? <Loader2 size={16} className="animate-spin" /> : <><CheckCircle2 size={15} /> Confirm my spot</>}
                   </button>
-                )}
+                  <button type="button" onClick={() => setShowRSVPForm(false)} className="w-full text-xs text-stone-400 hover:text-stone-600 py-1">
+                    Cancel
+                  </button>
+                  <p className="text-[11px] text-stone-400 text-center">
+                    We&apos;ll email the address 24h before. That&apos;s it. No spam.
+                  </p>
+                </form>
+              ) : (
+                <button
+                  onClick={() => setShowRSVPForm(true)}
+                  disabled={activity.spotsLeft === 0}
+                  className={clsx(
+                    'w-full py-3.5 rounded-2xl font-semibold text-sm transition-all active:scale-95',
+                    activity.spotsLeft === 0 ? 'bg-stone-100 text-stone-400 cursor-not-allowed' : 'btn-primary'
+                  )}
+                >
+                  {activity.spotsLeft === 0 ? 'Fully booked — join waitlist' : 'Join this gathering'}
+                </button>
+              )}
 
-                <div className="flex gap-2">
+              {!showRSVPForm && (
+                <div className="flex gap-2 mt-3">
                   <button
                     onClick={() => setSaved(!saved)}
                     className={clsx(
@@ -272,26 +296,26 @@ export default function ActivityDetailPage() {
                     <Heart size={14} className={saved ? 'fill-gather-500 text-gather-500' : ''} />
                     {saved ? 'Saved' : 'Save'}
                   </button>
-                  <button className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-sm font-medium border border-cream-300 text-stone-600 hover:border-stone-300 transition-all">
-                    <Share2 size={14} />
-                    Share
+                  <button
+                    onClick={handleShare}
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-2xl text-sm font-medium border border-cream-300 text-stone-600 hover:border-stone-300 transition-all"
+                  >
+                    <Share2 size={14} /> Share
                   </button>
                 </div>
-              </div>
+              )}
 
-              <p className="text-xs text-stone-400 text-center mt-4">
-                Free to join. Cancel anytime. No account required.
-              </p>
+              <p className="text-xs text-stone-400 text-center mt-4">Free to join. Cancel anytime.</p>
             </div>
 
-            {/* Safety note */}
+            {/* Safety */}
             <div className="bg-sage-50 border border-sage-100 rounded-2xl p-4">
               <div className="flex items-start gap-2">
                 <Shield size={16} className="text-sage-600 mt-0.5 shrink-0" />
                 <div>
                   <div className="text-sm font-semibold text-sage-800 mb-1">Community trust</div>
                   <p className="text-xs text-sage-700 leading-relaxed">
-                    All hosts are identity-verified. Gatherings at private homes include a verified address check. 24/7 support available.
+                    All hosts are identity-verified. Exact addresses shared only with confirmed attendees. 24/7 support at safety@gather.app.
                   </p>
                 </div>
               </div>
@@ -302,25 +326,13 @@ export default function ActivityDetailPage() {
         {/* Related */}
         {related.length > 0 && (
           <div className="mt-12">
-            <h2 className="font-display text-2xl text-stone-900 mb-5">
-              More {cat.label.toLowerCase()} gatherings
-            </h2>
+            <h2 className="font-display text-2xl text-stone-900 mb-5">More {cat.label.toLowerCase()} gatherings</h2>
             <div className="grid md:grid-cols-3 gap-5">
-              {related.map(a => (
-                <ActivityCard key={a.id} activity={a} />
-              ))}
+              {related.map(a => <ActivityCard key={a.id} activity={a} />)}
             </div>
           </div>
         )}
       </div>
     </div>
-  )
-}
-
-function Shield({ size, className }: { size: number; className?: string }) {
-  return (
-    <svg width={size} height={size} className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
   )
 }
